@@ -8,6 +8,6 @@ RUN mvn -f pom.xml clean package
 
 ### STAGE 2: RUN ###
 FROM adoptopenjdk:11-jre-hotspot
-COPY --from=build /workspace/target/*.jar application.jar
+COPY --from=build /workspace/target/*.war application.war
 #EXPOSE 8080
-ENTRYPOINT ["java","-jar","application.jar"]
+ENTRYPOINT ["java","-jar","application.war"]
