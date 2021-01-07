@@ -54,4 +54,11 @@ public class UserEntity extends AbstractEntity {
     )
     private Set<RoleEntity> roles = new HashSet<>();
 
+    public UserEntity(@NotNull @Pattern(regexp = Constants.LOGIN_REGEX) @Size(min = 1, max = 100) String username, @NotNull String password, @NotNull @Size(min = 1, max = 100) String firstName, @NotNull @Size(min = 1, max = 100) String lastName) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
 }
