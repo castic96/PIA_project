@@ -2,7 +2,7 @@ version: '2'
 
 services:
   app:
-    image: 'pia/tictactoe:latest'
+    image: 'pia/zcastora:latest'
     ports:
       - "8080:8080"
     build:
@@ -18,7 +18,14 @@ services:
 
   db:
     image: 'postgres:latest'
+    ports:
+      - "5432:5432"
     container_name: db
     environment:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=tictactoedb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:
