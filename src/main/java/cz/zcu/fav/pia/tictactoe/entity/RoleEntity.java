@@ -30,12 +30,6 @@ public class RoleEntity extends AbstractEntity {
     @Column(length = 50, nullable = false)
     private String name;
 
-    /*
-    @ManyToMany(mappedBy = "roles")
-    private Set<UserEntity> users;
-
-     */
-
     public RoleEntity(String code, String name) {
         this.code = code;
         this.name = name;

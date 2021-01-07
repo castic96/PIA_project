@@ -25,17 +25,12 @@ public class UserEntity extends AbstractEntity {
     @NotNull
     @Pattern(regexp = Constants.LOGIN_REGEX)
     @Size(min = 1, max = 100)
-    @Column(length = 100, nullable = false, unique = true)
-    private String email;
+    @Column(name = "user_name", length = 100, nullable = false, unique = true)
+    private String username;
 
     @NotNull
     @Column(name = "password_hash", nullable = false)
     private String password;
-
-    @NotNull
-    @Size(min = 1, max = 50)
-    @Column(name = "nick_name", length = 50, nullable = false, unique = true)
-    private String nickName;
 
     @NotNull
     @Size(min = 1, max = 100)
@@ -46,6 +41,10 @@ public class UserEntity extends AbstractEntity {
     @Size(min = 1, max = 100)
     @Column(name = "last_name", length = 100, nullable = false)
     private String lastName;
+
+    @NotNull
+    @Column(nullable = false)
+    private boolean isDeleted = false;
 
     @ManyToMany
     @JoinTable(
