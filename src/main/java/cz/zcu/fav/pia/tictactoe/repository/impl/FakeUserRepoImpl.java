@@ -1,6 +1,6 @@
 package cz.zcu.fav.pia.tictactoe.repository.impl;
 
-import cz.zcu.fav.pia.tictactoe.domain.User;
+import cz.zcu.fav.pia.tictactoe.model.User;
 import cz.zcu.fav.pia.tictactoe.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

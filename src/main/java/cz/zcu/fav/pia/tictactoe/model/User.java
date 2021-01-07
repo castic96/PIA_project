@@ -1,4 +1,4 @@
-package cz.zcu.fav.pia.tictactoe.domain;
+package cz.zcu.fav.pia.tictactoe.model;
 
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
