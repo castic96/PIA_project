@@ -1,5 +1,6 @@
 package cz.zcu.fav.pia.tictactoe.configuration;
 
+import cz.zcu.fav.pia.tictactoe.domain.RoleEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -18,7 +19,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http
 			.authorizeRequests(auth -> auth
 					.antMatchers("/webjars/**").permitAll()
-					.antMatchers("/admin**").authenticated()
+					.antMatchers("/admin**").hasRole(RoleEnum.ADMIN.getCode())
 					.anyRequest().permitAll())
 			.formLogin()
 			.loginPage("/login")
@@ -27,7 +28,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.and()
 			.logout()
 			.logoutUrl("/logout")
-			.logoutSuccessUrl("/");
+			.logoutSuccessUrl("/")
+			.and().exceptionHandling().accessDeniedPage("/");
 	}
 
 }
