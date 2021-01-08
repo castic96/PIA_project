@@ -25,7 +25,7 @@ public class AppConfiguration extends HttpConfigurationProvider {
 				.addRule(Join.path("/").to("/jsf/index.xhtml"))
 				.addRule(Join.path("/login").to("/jsf/login.xhtml"))
 				.addRule(Join.path("/password").to("/jsf/password.xhtml"))
-				.addRule(Join.path("/register").to("/jsf/register.xhtml"));
+				.addRule(Join.path("/registration").to("/jsf/registration.xhtml"));
 	}
 
 	@Override

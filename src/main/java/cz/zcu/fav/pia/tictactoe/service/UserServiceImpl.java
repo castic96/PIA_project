@@ -72,7 +72,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             }
         }
 
-        userEntityRepository.save(userEntity);
+        try {
+            userEntityRepository.save(userEntity);
+        } catch (RuntimeException e) {
+            log.error("Wrong format of email address.");
+            return false;
+            //TODO: sem dat message na FE
+        }
 
         log.info("User successfully created.");
 
