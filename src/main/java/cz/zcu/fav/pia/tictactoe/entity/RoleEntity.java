@@ -6,9 +6,11 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 /**
  * Create table role_tab.
@@ -29,6 +31,9 @@ public class RoleEntity extends AbstractEntity {
     @Size(min = 1, max = 50)
     @Column(length = 50, nullable = false)
     private String name;
+
+    @ManyToMany(mappedBy = "roles")
+    private List<UserEntity> users;
 
     public RoleEntity(String code, String name) {
         this.code = code;

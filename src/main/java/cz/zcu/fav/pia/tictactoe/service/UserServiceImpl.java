@@ -6,6 +6,7 @@ import cz.zcu.fav.pia.tictactoe.entity.RoleEntity;
 import cz.zcu.fav.pia.tictactoe.entity.UserEntity;
 import cz.zcu.fav.pia.tictactoe.repository.RoleEntityRepository;
 import cz.zcu.fav.pia.tictactoe.repository.UserEntityRepository;
+import cz.zcu.fav.pia.tictactoe.util.Utils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.DependsOn;
@@ -42,10 +43,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private void setup() {
         if (!userEntityRepository.existsUserEntitiesByRolesEquals(roleEntityRepository.findRoleEntityByCode(INIT_ROLE.getCode()))) {
             log.info("No admin present, creating admin...");
-            addUser(INIT_USERNAME, INIT_PASSWORD, "Super", "User", INIT_ROLE.getCode());
+            addUser(INIT_USERNAME, encoder.encode(INIT_PASSWORD), "Super", "User", INIT_ROLE.getCode());
         }
     }
 
+    @Override
     public boolean addUser(String username, String password, String firstName,
                            String lastName, String... roles) {
 
@@ -56,7 +58,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         UserEntity userEntity = new UserEntity(
                 username,
-                encoder.encode(password),
+                password,
                 firstName,
                 lastName);
 
@@ -85,10 +87,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return true;
     }
 
-    private String toSpringRole(RoleEntity roleEntity) {
-        return "ROLE_" + roleEntity.getCode();
-    }
-
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) {
@@ -102,7 +100,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         Set<GrantedAuthority> authorities = new HashSet<>();
 
         for (RoleEntity currentRole : userEntity.getRoles()) {
-            authorities.add(new SimpleGrantedAuthority(toSpringRole(currentRole)));
+            authorities.add(new SimpleGrantedAuthority(Utils.toSpringRole(currentRole)));
         }
 
         return new UserDomain(

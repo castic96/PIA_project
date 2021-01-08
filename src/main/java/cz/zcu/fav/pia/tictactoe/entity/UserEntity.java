@@ -32,14 +32,14 @@ public class UserEntity extends AbstractEntity {
     @Column(name = "password_hash", nullable = false)
     private String password;
 
-    @NotNull
+    //@NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "first_name", length = 100, nullable = false)
+    @Column(name = "first_name", length = 100, nullable = true)
     private String firstName;
 
-    @NotNull
+    //@NotNull
     @Size(min = 1, max = 100)
-    @Column(name = "last_name", length = 100, nullable = false)
+    @Column(name = "last_name", length = 100, nullable = true)
     private String lastName;
 
     @NotNull

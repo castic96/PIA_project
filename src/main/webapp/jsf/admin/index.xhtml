@@ -7,14 +7,14 @@
 	template="/WEB-INF/jsf/base.xhtml"
 	lang="cs">
 
-	<ui:define name="title">Admin</ui:define>
+	<ui:define name="title">Administration</ui:define>
 		
 	<ui:define name="body">
 		<sec:authorize access="hasRole('ADMIN')">
 			<h1>Administration</h1>
 			
 			<h:dataTable
-				value="#{adminService.users}"
+				value="#{adminService.userDomainList}"
 				var="user"
 				styleClass="table"
 				headerClass="align-middle"

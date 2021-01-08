@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.annotation.RequestScope;
@@ -24,6 +25,8 @@ public class RegistrationServiceImpl implements RegistrationService {
     private static final String CHANGE_PASSWORD_FORM_NEW_PASSWORD = ":changePasswordForm:password1";
 
     private final UserService userService;
+
+    private final PasswordEncoder encoder;
 
     private String email;
     private String newPassword1;
@@ -45,7 +48,7 @@ public class RegistrationServiceImpl implements RegistrationService {
             return;
         }
 
-        userService.addUser(email, newPassword1, firstName, lastName, RoleEnum.USER.getCode());
+        userService.addUser(email, encoder.encode(newPassword1), firstName, lastName, RoleEnum.USER.getCode());
     }
 
     public void registerUser() {

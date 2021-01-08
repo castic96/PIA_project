@@ -1,20 +1,22 @@
 package cz.zcu.fav.pia.tictactoe.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.RequiredArgsConstructor;
-import lombok.Value;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Set;
 import java.util.UUID;
 
-@Value
+@Data
 @Builder(toBuilder = true)
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserDomain implements UserDetails {
 
-    private UUID id;
+    private UUID id = null;
     private String username;
     private String password;
     private String firstName;

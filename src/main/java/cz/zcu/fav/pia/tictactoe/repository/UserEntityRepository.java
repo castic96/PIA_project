@@ -14,4 +14,6 @@ public interface UserEntityRepository extends JpaRepository<UserEntity, UUID> {
 
     boolean existsUserEntitiesByRolesEquals(RoleEntity role);
 
+    void removeUserEntityByUsername(String username);
+
 }
