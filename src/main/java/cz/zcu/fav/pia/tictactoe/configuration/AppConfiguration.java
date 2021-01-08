@@ -23,7 +23,8 @@ public class AppConfiguration extends HttpConfigurationProvider {
 				.perform(SendStatus.code(404))
 				.where("path").matches("^/jsf/.*\\.xhtml$")
 				.addRule(Join.path("/").to("/jsf/index.xhtml"))
-				.addRule(Join.path("/login").to("/jsf/login.xhtml"));
+				.addRule(Join.path("/login").to("/jsf/login.xhtml"))
+				.addRule(Join.path("/password").to("/jsf/password.xhtml"));
 	}
 
 	@Override
