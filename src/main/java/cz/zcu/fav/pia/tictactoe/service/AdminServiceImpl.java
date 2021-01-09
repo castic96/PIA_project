@@ -21,7 +21,6 @@ import org.springframework.web.context.annotation.RequestScope;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.transaction.Transactional;
 import java.util.*;
 
 @Service("adminService")
@@ -92,32 +91,53 @@ public class AdminServiceImpl implements AdminService {
         return this.user;
     }
 
-    public void deleteUser() {
-        if (this.user != null) {
-            deleteUser(user);
-            this.user = null;
-        }
-    }
-
-    @Transactional
-    public void deleteUser(UserDomain userDomain) {
-        List<UserEntity> adminUsers = roleEntityRepository.findRoleEntityByCode(RoleEnum.ADMIN.getCode()).getUsers();
-
-        if (adminUsers.size() == 1 && adminUsers.get(0).getId().equals(userDomain.getId())) {
-            log.error("Unable to delete last admin in application.");
-            //TODO: propagovat chybu
-        }
-        else {
-            userEntityRepository.removeUserEntityByUsername(userDomain.getUsername());
-        }
-    }
-
     public boolean isHasUsername() {
         if (this.user == null) {
             return false;
         }
 
         if (StringUtils.hasText(this.user.getUsername())) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public void grantAdmin() {
+        if (this.user == null) {
+            return;
+        }
+
+        UserEntity userEntity = userEntityRepository.findUserEntityByUsername(user.getUsername());
+        RoleEntity roleEntity = roleEntityRepository.findRoleEntityByCode(RoleEnum.ADMIN.getCode());
+
+        if (user.isAdmin()) {
+            userEntity.getRoles().remove(roleEntity);
+        }
+        else {
+            userEntity.getRoles().add(roleEntity);
+        }
+        userEntityRepository.save(userEntity);
+    }
+
+    public boolean isHasFirstName() {
+        if (this.user == null) {
+            return false;
+        }
+
+        if (StringUtils.hasText(this.user.getFirstName())) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean isHasLastName() {
+        if (this.user == null) {
+            return false;
+        }
+
+        if (StringUtils.hasText(this.user.getLastName())) {
             return true;
         }
 
@@ -155,7 +175,19 @@ public class AdminServiceImpl implements AdminService {
 
         if (!StringUtils.hasText(this.user.getUsername())) {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Username must not be empty!", null));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Email must not be empty!", null));
+            return;
+        }
+
+        if (!StringUtils.hasText(this.user.getFirstName())) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "First name must not be empty!", null));
+            return;
+        }
+
+        if (!StringUtils.hasText(this.user.getLastName())) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Last name must not be empty!", null));
             return;
         }
 
@@ -179,6 +211,8 @@ public class AdminServiceImpl implements AdminService {
             );
         }
         else {
+            userEntity.setFirstName(userDomain.getFirstName());
+            userEntity.setLastName(userDomain.getLastName());
             userEntity.setPassword(userDomain.getPassword());
             userEntityRepository.save(userEntity);
         }

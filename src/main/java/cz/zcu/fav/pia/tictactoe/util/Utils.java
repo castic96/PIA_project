@@ -8,4 +8,8 @@ public final class Utils {
         return "ROLE_" + roleEntity.getCode();
     }
 
+    public static String toSpringRole(String roleString) {
+        return "ROLE_" + roleString;
+    }
+
 }

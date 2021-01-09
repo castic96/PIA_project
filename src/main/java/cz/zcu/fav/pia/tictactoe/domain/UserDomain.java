@@ -1,10 +1,12 @@
 package cz.zcu.fav.pia.tictactoe.domain;
 
+import cz.zcu.fav.pia.tictactoe.util.Utils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Set;
@@ -41,6 +43,10 @@ public class UserDomain implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public boolean isAdmin() {
+        return authorities.contains(new SimpleGrantedAuthority(Utils.toSpringRole(RoleEnum.ADMIN.getCode())));
     }
 
 }

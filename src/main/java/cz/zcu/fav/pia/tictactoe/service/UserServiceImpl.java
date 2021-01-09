@@ -32,7 +32,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private static final String INIT_USERNAME = "admin@admin.com";
     private static final String INIT_PASSWORD = "admin";
-    private static final RoleEnum INIT_ROLE = RoleEnum.ADMIN;
+    private static final RoleEnum INIT_ROLE_ADMIN = RoleEnum.ADMIN;
+    private static final RoleEnum INIT_ROLE_USER = RoleEnum.USER;
 
     private final UserEntityRepository userEntityRepository;
     private final RoleEntityRepository roleEntityRepository;
@@ -41,9 +42,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @PostConstruct
     private void setup() {
-        if (!userEntityRepository.existsUserEntitiesByRolesEquals(roleEntityRepository.findRoleEntityByCode(INIT_ROLE.getCode()))) {
+        if (!userEntityRepository.existsUserEntitiesByRolesEquals(roleEntityRepository.findRoleEntityByCode(INIT_ROLE_ADMIN.getCode()))) {
             log.info("No admin present, creating admin...");
-            addUser(INIT_USERNAME, encoder.encode(INIT_PASSWORD), "Super", "User", INIT_ROLE.getCode());
+            addUser(INIT_USERNAME, encoder.encode(INIT_PASSWORD), "Super", "User", INIT_ROLE_ADMIN.getCode(), INIT_ROLE_USER.getCode());
         }
     }
 
