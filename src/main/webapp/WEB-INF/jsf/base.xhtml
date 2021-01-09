@@ -20,14 +20,20 @@
 		</script>
 		<script type="text/javascript" src="/js/settings.js">
 		</script>
+		<script type="text/javascript" src="/js/websockets.js">
+		</script>
 		
-		<title>PIA APP: <ui:insert name="title">TEMPLATE</ui:insert></title>
+		<title>TicTacToe: <ui:insert name="title">TEMPLATE</ui:insert></title>
 		<link
 			rel="stylesheet"
-			href="/webjars/bootstrap/css/bootstrap.min.css" />
+			href="/webjars/bootstrap/css/bootstrap.min.css"
+		/>
 		<link
 			rel="stylesheet"
-			href="/webjars/font-awesome/5.15.1/css/all.min.css" />
+			href="/webjars/font-awesome/5.15.1/css/all.min.css"
+		/>
+
+		<ui:insert name="stylesheets"></ui:insert>
 	
 	</h:head>
 	
@@ -42,14 +48,14 @@
 					<sec:authorize access="!isAuthenticated()">
 						<ul class="navbar-nav">
 							<li class="nav-item">
-								<a href="/login" class="nav-link">Login</a>
+								<a href="/login" class="nav-link">Log In</a>
 							</li>
 						</ul>
 					</sec:authorize>
 					<sec:authorize access="!isAuthenticated()">
 						<ul class="navbar-nav">
 							<li class="nav-item">
-								<a href="/registration" class="nav-link">Register</a>
+								<a href="/registration" class="nav-link">Sign Up</a>
 							</li>
 						</ul>
 					</sec:authorize>

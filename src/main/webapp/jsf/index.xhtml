@@ -7,26 +7,44 @@
 	template="/WEB-INF/jsf/base.xhtml"
 	lang="cs">
 
-	<ui:define name="title">Hello World!</ui:define>
+	<ui:define name="stylesheets">
+		<link rel="stylesheet"
+			  type="text/css"
+			  href="/css/index.css"
+		/>
+	</ui:define>
+
+	<ui:define name="title">Home</ui:define>
 	
 	<ui:define name="body">
-		<h1>Home</h1>
-		<sec:authorize access="isAnonymous()">
-			<p>You are anonymous, <a href="/login">login</a></p>
-		</sec:authorize>
-		<sec:authorize access="isAuthenticated()">
-			<form action="/logout" method="post">
-				<p>
-					You are authenticated, <button type="submit" class="btn btn-link">logout</button>
-					<input type="hidden" name="#{_csrf.parameterName}" value="#{_csrf.token}"/>
-				</p>
-			</form>
-		</sec:authorize>
-		<sec:authorize access="hasRole('ADMIN')">
-			<p>You are an admin</p>
-		</sec:authorize>
-		<p><a href="/admin">Administration</a></p>
-		<p><a href="/wsock">WebSocket Client</a></p>
+		<div class="row">
+			<div class="col text-center">
+				<h1>Tic Tac Toe</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col text-center">
+				<sec:authorize access="isAnonymous()">
+					<a href="/login" class="btn btn-primary main-btn">
+						Log In
+					</a>
+				</sec:authorize>
+				<sec:authorize access="isAuthenticated()">
+					<form action="/logout" method="post">
+						<button type="submit" class="btn btn-primary main-btn">Log Out</button>
+						<input type="hidden" name="#{_csrf.parameterName}" value="#{_csrf.token}"/>
+					</form>
+				</sec:authorize>
+				<sec:authorize access="isAnonymous()">
+					<a href="/registration" class="btn btn-primary main-btn">Sign Up</a>
+				</sec:authorize>
+			</div>
+		</div>
+		<div class="row text-center">
+			<div class="col">
+				<a href="/authenticated/game" class="btn btn-primary main-btn">Play</a>
+			</div>
+		</div>
 	</ui:define>
 	
 </ui:composition>
