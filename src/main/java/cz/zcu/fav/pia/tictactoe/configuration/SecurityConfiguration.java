@@ -20,6 +20,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.authorizeRequests(auth -> auth
 					.antMatchers("/webjars/**").permitAll()
 					.antMatchers("/admin**").hasRole(RoleEnum.ADMIN.getCode())
+					.antMatchers("/authenticated/**").authenticated()
 					.anyRequest().permitAll())
 			.formLogin()
 			.loginPage("/login")
