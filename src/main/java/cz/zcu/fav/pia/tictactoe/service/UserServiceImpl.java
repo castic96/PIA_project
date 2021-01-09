@@ -19,6 +19,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Set;
@@ -79,8 +81,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             userEntityRepository.save(userEntity);
         } catch (RuntimeException e) {
             log.error("Wrong format of email address.");
+
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Wrong format of email address.", null));
+
             return false;
-            //TODO: sem dat message na FE
         }
 
         log.info("User successfully created.");

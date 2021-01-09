@@ -21,7 +21,7 @@
 				id="usersTable"
 				>
 				<h:column>
-					<f:facet name="header">Username</f:facet>
+					<f:facet name="header">Email</f:facet>
 					#{user.username}
 				</h:column>
 				<h:column>
@@ -84,7 +84,13 @@
 												value="#{adminService.user.username}"
 												styleClass="form-control"
 												tabindex="1"
-												readonly="#{adminService.hasUsername}" />
+												required="true"
+												requiredMessage="E-mail is required."
+												readonly="#{adminService.hasUsername}"
+												validatorMessage="Wrong type of email address format!"
+											>
+												<f:validateRegex pattern="([^.@]+)(\.[^.@]+)*@([^.@]+\.)+([^.@]+)" />
+											</h:inputText>
 										</div>
 									</div>
 									<div class="form-group row">
@@ -97,6 +103,8 @@
 													value="#{adminService.user.firstName}"
 													styleClass="form-control"
 													tabindex="1"
+													required="true"
+													requiredMessage="First name is required."
 													readonly="#{adminService.hasFirstName}"
 											/>
 										</div>
@@ -111,6 +119,8 @@
 													value="#{adminService.user.lastName}"
 													styleClass="form-control"
 													tabindex="1"
+													required="true"
+													requiredMessage="Last name is required."
 													readonly="#{adminService.hasLastName}"
 											/>
 										</div>
@@ -125,7 +135,13 @@
 												value="#{adminService.newPassword1}"
 												styleClass="form-control"
 												tabindex="1"
-												/>
+												required="true"
+												requiredMessage="Password is required."
+												validatorMessage="Password is too short. Minimum length is 5 characters."
+											>
+												<f:validateLength minimum="5" />
+											</h:inputSecret>
+
 										</div>
 									</div>
 									<div class="form-group row">
@@ -138,6 +154,8 @@
 												value="#{adminService.newPassword2}"
 												styleClass="form-control"
 												tabindex="1"
+												required="true"
+												requiredMessage="Repeat your password is required."
 												/>
 										</div>
 									</div>

@@ -159,12 +159,8 @@ public class AdminServiceImpl implements AdminService {
 
         String encoded = encoder.encode(newPassword1);
 
-        //TODO: tohle pořešit, aby se mi nereplacovaly role u editace uživatele
         this.user.setPassword(encoded);
-//        this.userDomain = userDomain.toBuilder()
-//                .password(encoded)
-//                .authorities(Set.of(new SimpleGrantedAuthority("ROLE_" + RoleEnum.USER.getCode())))
-//                .build();
+
         return true;
     }
 
@@ -193,12 +189,10 @@ public class AdminServiceImpl implements AdminService {
 
         if (this.setPasswordInternal()) {
             addUser(user);
-            FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "User successfully saved!", null));
         }
     }
 
-    private void addUser(UserDomain userDomain) {
+    private boolean addUser(UserDomain userDomain) {
         UserEntity userEntity = userEntityRepository.findUserEntityByUsername(userDomain.getUsername());
 
         if (userEntity == null) {
@@ -209,13 +203,20 @@ public class AdminServiceImpl implements AdminService {
                     userDomain.getLastName(),
                     RoleEnum.USER.getCode()
             );
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "User successfully created!", null));
         }
         else {
             userEntity.setFirstName(userDomain.getFirstName());
             userEntity.setLastName(userDomain.getLastName());
             userEntity.setPassword(userDomain.getPassword());
             userEntityRepository.save(userEntity);
+
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Password successfully changed!", null));
         }
+
+        return true;
     }
 
 }

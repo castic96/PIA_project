@@ -30,9 +30,11 @@
                                 required="true"
                                 requiredMessage="Please enter your e-mail"
                                 p:placeholder="example@email.com"
-                        />
+                                validatorMessage="Wrong type of email address format!"
+                        >
+                            <f:validateRegex pattern="([^.@]+)(\.[^.@]+)*@([^.@]+\.)+([^.@]+)"/>
+                        </h:inputText>
                     </div>
-                    <h:message for="email" style="color:red" />
                 </div>
                 <div class="form-group row">
                     <h:outputLabel for="password1" styleClass="col-md-3 col-form-label">
@@ -46,12 +48,12 @@
                                 tabindex="1"
                                 required="true"
                                 requiredMessage="Please enter your password"
-                                p:placeholder="heslo"
+                                p:placeholder="password"
+                                validatorMessage="Password is too short. Minimum length is 5 characters."
                         >
                             <f:validateLength minimum="5" />
                         </h:inputSecret>
                     </div>
-                    <h:message for="password1" style="color:red" />
                 </div>
                 <div class="form-group row">
                     <h:outputLabel for="password2" styleClass="col-md-3 col-form-label">
@@ -65,12 +67,10 @@
                                 tabindex="1"
                                 required="true"
                                 requiredMessage="Please repeat your password"
-                                p:placeholder="heslo znovu"
+                                p:placeholder="repeat password"
                         >
-                            <f:validateLength minimum="5" />
                         </h:inputSecret>
                     </div>
-                    <h:message for="password2" style="color:red" />
                 </div>
                 <div class="form-group row">
                     <h:outputLabel for="firstName" styleClass="col-md-3 col-form-label">
@@ -87,7 +87,6 @@
                                 p:placeholder="Jan"
                         />
                     </div>
-                    <h:message for="firstName" style="color:red" />
                 </div>
                 <div class="form-group row">
                     <h:outputLabel for="lastName" styleClass="col-md-3 col-form-label">
@@ -104,7 +103,6 @@
                                 p:placeholder="Novák"
                         />
                     </div>
-                    <h:message for="lastName" style="color:red" />
                 </div>
                 <div class="form-group row">
                     <h:commandLink
