@@ -8,6 +8,13 @@
 	template="/WEB-INF/jsf/base.xhtml"
 	lang="cs">
 
+	<ui:define name="stylesheets">
+		<link rel="stylesheet"
+			  type="text/css"
+			  href="/css/login.css"
+		/>
+	</ui:define>
+
 	<ui:define name="title">Login</ui:define>
 	
 	<ui:define name="body">
@@ -15,17 +22,25 @@
 			<h1>Login</h1>
 
 			<c:if test="#{param['error'] != null ? (param['error'] eq true ? 'true' : 'false') : 'false'}">
-				<p class="alert alert-danger col-md-8">
-					Wrong e-mail address or password.
-				</p>
+				<div class="row mb-3">
+					<p class="alert mb-4 alert-danger">
+						Wrong e-mail address or password.
+					</p>
+				</div>
 			</c:if>
 
 			<form action="/login" method="post">
 				<div class="form row">
-					<input type="text" required="required" class="form-control" name="username" placeholder="e-mail" />
+					<label class="col-md-2 col-form-label">
+						E-mail:
+					</label>
+					<input type="text" required="required" class="col-md-5 form-control" name="username" placeholder="example@email.com" />
 				</div>
 				<div class="form row">
-					<input type="password" required="required" class="form-control" name="password" placeholder="password" />
+					<label class="col-md-2 col-form-label">
+						Password:
+					</label>
+					<input type="password" required="required" class="col-md-5 form-control" name="password" placeholder="password" />
 					<input type="hidden" name="#{_csrf.parameterName}" value="#{_csrf.token}"/>
 				</div>
 				<div class="form row">
