@@ -16,6 +16,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 
@@ -71,6 +72,7 @@ public class FriendServiceImpl implements FriendService {
         addFriend(loggedUserService.getUser(), friend);
     }
 
+    @Transactional
     public void addFriend(UserDomain loggedUser, UserDomain friend) {
         List<UserDomain> friendList1 = getFriends(loggedUser);
         List<UserDomain> friendList2 = getFriends(friend);
@@ -94,5 +96,30 @@ public class FriendServiceImpl implements FriendService {
 
         friendEntityRepository.save(friendEntity1);
         friendEntityRepository.save(friendEntity2);
+    }
+
+    public void removeFriend(UserDomain friend) {
+        removeFriend(loggedUserService.getUser(), friend);
+    }
+
+    @Transactional
+    public void removeFriend(UserDomain loggedUser, UserDomain friend) {
+        List<UserDomain> friendList1 = getFriends(loggedUser);
+
+        if (!friendList1.contains(friend)) {
+            log.error("Required user is not in friend list.");
+        }
+
+        List<FriendEntity> loggedUserEntities = friendEntityRepository.findAllByUser1UsernameAndUser2Username(loggedUser.getUsername(), friend.getUsername());
+        List<FriendEntity> friendEntities = friendEntityRepository.findAllByUser1UsernameAndUser2Username(friend.getUsername(), loggedUser.getUsername());
+
+        for (FriendEntity friendEntity : loggedUserEntities) {
+            friendEntityRepository.delete(friendEntity);
+        }
+
+        for (FriendEntity friendEntity : friendEntities) {
+            friendEntityRepository.delete(friendEntity);
+        }
+
     }
 }

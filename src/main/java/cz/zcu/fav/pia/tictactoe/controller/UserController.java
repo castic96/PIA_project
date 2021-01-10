@@ -22,7 +22,7 @@ public class UserController {
     @PutMapping("/save")
     public String saveUserInfo(@RequestBody String value) {
         log.info("value: " + value);
-        friendService.addFriend((UserDomain) userService.loadUserByUsername("user1@example.com"));
+        friendService.removeFriend((UserDomain) userService.loadUserByUsername("user1@example.com"));
         return "Styl";
     }
 

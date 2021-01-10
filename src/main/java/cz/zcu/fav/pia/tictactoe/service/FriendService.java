@@ -7,4 +7,6 @@ public interface FriendService {
     void addFriend(UserDomain loggedUser, UserDomain friend);
 
     void addFriend(UserDomain friend);
+
+    void removeFriend(UserDomain friend);
 }

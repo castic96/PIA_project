@@ -12,4 +12,6 @@ public interface FriendEntityRepository extends JpaRepository<FriendEntity, UUID
 
     List<FriendEntity> findAllByUser1Username(String username);
 
+    List<FriendEntity> findAllByUser1UsernameAndUser2Username(String username1, String username2);
+
 }
