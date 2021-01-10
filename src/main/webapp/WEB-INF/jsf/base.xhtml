@@ -9,7 +9,12 @@
 	<h:head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-		
+
+		<script
+				src="/webjars/jquery/jquery.min.js"></script>
+		<script
+				src="/webjars/bootstrap/js/bootstrap.bundle.min.js"></script>
+
 		<script type="text/javascript">
 			var _csrfParameterName = '#{_csrf.parameterName}';
 			var _csrfHeaderName = '#{_csrf.headerName}';
@@ -20,8 +25,8 @@
 		</script>
 		<script type="text/javascript" src="/js/settings.js">
 		</script>
-		<script type="text/javascript" src="/js/websockets.js">
-		</script>
+
+		<ui:insert name="scripts"></ui:insert>
 		
 		<title>TicTacToe: <ui:insert name="title">TEMPLATE</ui:insert></title>
 		<link
@@ -89,8 +94,6 @@
 							</li>
 						</sec:authorize>
 					</ul>
-
-
 				</div>
 			</div>
 		</nav>
@@ -98,11 +101,7 @@
 		<div class="container">
 			<ui:insert name="body">TEMPLATE</ui:insert>
 		</div>
-		
-		<script
-			src="/webjars/jquery/jquery.min.js"></script>
-		<script
-			src="/webjars/bootstrap/js/bootstrap.bundle.min.js"></script>
+
 	</h:body>
 	
 </html>
