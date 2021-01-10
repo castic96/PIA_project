@@ -7,6 +7,13 @@
 	template="/WEB-INF/jsf/base.xhtml"
 	lang="cs">
 
+	<ui:define name="stylesheets">
+		<link rel="stylesheet"
+			  type="text/css"
+			  href="/css/admin.css"
+		/>
+	</ui:define>
+
 	<ui:define name="title">Administration</ui:define>
 		
 	<ui:define name="body">
@@ -49,7 +56,7 @@
 							<f:setPropertyActionListener value="#{user}" target="#{adminService.user}" />
 						</h:commandLink>
 						<h:commandLink
-								styleClass="btn #{user.admin ? 'btn-secondary' : 'btn-primary'}"
+								styleClass="btn #{user.admin ? 'btn-secondary' : 'btn-primary'} grant-btn"
 								action="#{adminService.grantAdmin}"
 								value="#{user.admin ? 'Ungrant admin' : 'Grant admin'}"
 						>

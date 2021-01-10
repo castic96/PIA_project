@@ -61,7 +61,38 @@
                     <div class="col-12">
                         <div class="tab-content" id="nav-tabContent">
                             <div class="tab-pane fade show active" id="friends" role="tabpanel" aria-labelledby="list-friends">
-                                <h1>Friends</h1>
+
+                                <h:dataTable
+                                        value="#{friendService.friendsList}"
+                                        var="friend"
+                                        styleClass="table"
+                                        headerClass="align-middle"
+                                        id="usersTable"
+                                >
+                                    <h:column>
+                                        <f:facet name="header">Email</f:facet>
+                                        #{friend.username}
+                                    </h:column>
+
+                                </h:dataTable>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                             </div>
                             <div class="tab-pane fade" id="online-players" role="tabpanel" aria-labelledby="list-online-players">
                                 <h1>Online</h1>
