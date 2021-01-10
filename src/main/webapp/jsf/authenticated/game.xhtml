@@ -7,10 +7,18 @@
                 template="/WEB-INF/jsf/base.xhtml"
                 lang="cs">
 
+    <ui:define name="stylesheets">
+        <link rel="stylesheet"
+              type="text/css"
+              href="/css/game.css"
+        />
+    </ui:define>
+
     <ui:define name="scripts">
         <script type="text/javascript" src="/js/websockets.js"></script>
         <script src="${pageContext.request.contextPath}/webjars/sockjs-client/sockjs.min.js"></script>
         <script src="${pageContext.request.contextPath}/webjars/stomp-websocket/stomp.min.js"></script>
+        <script type="text/javascript" src="/js/game.js"></script>
     </ui:define>
 
     <ui:define name="title">Game</ui:define>
@@ -50,6 +58,21 @@
                     <tbody id="greetings">
                     </tbody>
                 </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col centered">
+                <table id="gameBoard">
+                    <ui:repeat value="#{boardSize.boardSizeX}" var="boardSizeX">
+                        <tr>
+                            <ui:repeat value="#{boardSize.boardSizeY}" var="boardSizeY">
+                                <td id="#{boardSizeX}#{boardSizeY}" onclick="">
+                                </td>
+                            </ui:repeat>
+                        </tr>
+                    </ui:repeat>
+                </table>
+                <br/><br/>
             </div>
         </div>
     </ui:define>
