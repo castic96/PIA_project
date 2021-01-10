@@ -13,3 +13,17 @@ table#gameBoard td:hover {
     background-color: lightgray;
     cursor: pointer;
 }
+
+.connect-btn {
+    margin-right: 12px;
+    width: 120px;
+    text-align: center;
+    align-self: center;
+    vertical-align: middle;
+    line-height: 20px;
+    margin-bottom: 10px;
+}
+
+.row {
+    margin-bottom: 20px;
+}

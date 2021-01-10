@@ -17,6 +17,7 @@ function connect(csrf) {
     stompClient = Stomp.over(socket);
     stompClient.connect({ "X-CSRF-TOKEN": csrf }, function (frame) {
         setConnected(true);
+        alertify.success('Successfully connected.', 2);
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/greetings', function (greeting) {
             showGreeting(JSON.parse(greeting.body).content);
@@ -30,6 +31,7 @@ function disconnect() {
     }
     setConnected(false);
     console.log("Disconnected");
+    alertify.success('Successfully disconnected.', 2);
 }
 
 function sendName() {
@@ -44,7 +46,9 @@ $(function () {
     $("form").on('submit', function (e) {
         e.preventDefault();
     });
-    $( "#connect" ).click(function() { connect($(this).attr("data-csrf")); });
+    $( "#connect" ).click(function() {
+        connect($(this).attr("data-csrf"));
+    });
     $( "#disconnect" ).click(function() { disconnect(); });
     $( "#send" ).click(function() { sendName(); });
 });

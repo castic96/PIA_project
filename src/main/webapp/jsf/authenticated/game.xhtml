@@ -27,16 +27,74 @@
         <h1>Game</h1>
 
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-12">
                 <form class="form-inline">
                     <div class="form-group">
-                        <label for="connect">WebSocket connection:</label>
-                        <button id="connect" class="btn btn-default" data-csrf="#{_csrf.token}" type="submit">Connect</button>
-                        <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled">Disconnect
+                        <button id="connect" class="btn btn-primary connect-btn" data-csrf="#{_csrf.token}" type="submit">Connect</button>
+                        <button id="disconnect" class="btn btn-secondary connect-btn" type="submit" disabled="disabled">Disconnect
                         </button>
                     </div>
                 </form>
             </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-5">
+                        <div class="list-group" id="list-tab" role="tablist">
+                            <a
+                                    class="list-group-item list-group-item-action active"
+                                    id="list-friends"
+                                    data-toggle="list"
+                                    href="#friends"
+                                    role="tab">Friends</a>
+                            <a
+                                    class="list-group-item list-group-item-action"
+                                    id="list-online-players"
+                                    data-toggle="list"
+                                    href="#online-players"
+                                    role="tab">Online players</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="friends" role="tabpanel" aria-labelledby="list-friends">
+                                <h1>Friends</h1>
+                            </div>
+                            <div class="tab-pane fade" id="online-players" role="tabpanel" aria-labelledby="list-online-players">
+                                <h1>Online</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col-12 d-flex justify-content-center">
+                        <table id="gameBoard">
+                            <ui:repeat value="#{boardSize.boardSizeX}" var="boardSizeX">
+                                <tr>
+                                    <ui:repeat value="#{boardSize.boardSizeY}" var="boardSizeY">
+                                        <td id="#{boardSizeX}#{boardSizeY}" onclick="">O
+                                        </td>
+                                    </ui:repeat>
+                                </tr>
+                            </ui:repeat>
+                        </table>
+                        <br/><br/>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+
+        <div class="row">
             <div class="col-md-6">
                 <form class="form-inline">
                     <div class="form-group">
@@ -58,21 +116,6 @@
                     <tbody id="greetings">
                     </tbody>
                 </table>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col centered">
-                <table id="gameBoard">
-                    <ui:repeat value="#{boardSize.boardSizeX}" var="boardSizeX">
-                        <tr>
-                            <ui:repeat value="#{boardSize.boardSizeY}" var="boardSizeY">
-                                <td id="#{boardSizeX}#{boardSizeY}" onclick="">
-                                </td>
-                            </ui:repeat>
-                        </tr>
-                    </ui:repeat>
-                </table>
-                <br/><br/>
             </div>
         </div>
     </ui:define>
