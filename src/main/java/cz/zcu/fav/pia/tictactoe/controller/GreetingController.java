@@ -8,13 +8,11 @@ import org.springframework.stereotype.Controller;
 
 import static org.springframework.web.util.HtmlUtils.htmlEscape;
 
-/**
- */
 @Controller
 public class GreetingController {
 
     @MessageMapping("/hello")
-    @SendTo("/topic/greetings")
+    @SendTo("/client/greetings")
     public Greeting greeting(HelloMessage message) throws Exception {
         Thread.sleep(1000);
         return new Greeting("Hello, " + htmlEscape(message.getName()) + "!");

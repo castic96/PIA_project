@@ -1,0 +1,13 @@
+package cz.zcu.fav.pia.tictactoe.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+public class OnlinePlayer {
+
+    private String username;
+    private boolean inGame;
+
+}

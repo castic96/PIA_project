@@ -19,8 +19,11 @@ function connect(csrf) {
         setConnected(true);
         alertify.success('Successfully connected.', 2);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/greetings', function (greeting) {
+        stompClient.subscribe('/client/greetings', function (greeting) {
             showGreeting(JSON.parse(greeting.body).content);
+        });
+        stompClient.subscribe('/client/online-players', function (players) {
+            showOnlinePlayers(JSON.parse(players.body));
         });
     });
 }
@@ -32,6 +35,7 @@ function disconnect() {
     setConnected(false);
     console.log("Disconnected");
     alertify.success('Successfully disconnected.', 2);
+    $("#onlineTable").html("");
 }
 
 function sendName() {
@@ -40,6 +44,15 @@ function sendName() {
 
 function showGreeting(message) {
     $("#greetings").append("<tr><td>" + message + "</td></tr>");
+}
+
+function showOnlinePlayers(message) {
+    let onlineTable = $("#onlineTable");
+    onlineTable.html("<tr><th class=\"user-tab\">User</th><th class=\"status-tab\">Status</th></tr>");
+    for (let i = 0; i < message.length; i++) {
+        if (message[i].username.localeCompare($("#loggedUser").html()) === 0) continue;
+        onlineTable.append("<tr><td class=\"user-tab\">" + message[i].username + "</td><td class=\"status-tab\"><span class=\"indicator " + (message[i].inGame === true ? 'in-game' : 'online') + " \"/> </td></tr>");
+    }
 }
 
 $(function () {

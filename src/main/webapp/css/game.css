@@ -34,7 +34,14 @@ table#gameBoard td:hover {
     width: 1em;
     height: 1em;
     border-radius: 50%;
-    -webkit-animation: pulse-animation 2s infinite linear;
+}
+
+.indicator.in-game {
+    background: #d8c523;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
 }
 
 @-webkit-keyframes pulse-animation {
@@ -51,4 +58,16 @@ table#gameBoard td:hover {
     width: 1em;
     height: 1em;
     border-radius: 50%;
+}
+
+.user-tab {
+    width: 135px;
+    max-width: 135px;
+    min-width: 135px;
+}
+
+.status-tab {
+    width: 20px;
+    max-width: 20px;
+    min-width: 20px;
 }

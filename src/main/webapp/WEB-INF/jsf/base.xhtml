@@ -93,9 +93,10 @@
 								<form action="/logout" method="post">
 									<button type="submit" class="nav-link btn btn-link" title="Logout">
 										#{loggedUser.user.username}
-										<em class="fa fa-sign-out-alt"></em>
+										<em class="fa fa-sign-out-alt"/>
 									</button>
 									<input type="hidden" name="#{_csrf.parameterName}" value="#{_csrf.token}"/>
+									<span id="loggedUser" style="display: none;">#{loggedUser.user.username}</span>
 								</form>
 							</li>
 						</sec:authorize>
