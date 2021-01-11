@@ -118,6 +118,8 @@ public class AdminServiceImpl implements AdminService {
             userEntity.getRoles().add(roleEntity);
         }
         userEntityRepository.save(userEntity);
+
+        userDomainList = null;
     }
 
     public boolean isHasFirstName() {

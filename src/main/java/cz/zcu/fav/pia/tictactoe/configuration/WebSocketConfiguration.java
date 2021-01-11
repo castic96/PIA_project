@@ -20,7 +20,7 @@ public class WebSocketConfiguration extends AbstractSecurityWebSocketMessageBrok
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/client");
+        registry.enableSimpleBroker("/client", "/invite");
         registry.setApplicationDestinationPrefixes("/app");
     }
 

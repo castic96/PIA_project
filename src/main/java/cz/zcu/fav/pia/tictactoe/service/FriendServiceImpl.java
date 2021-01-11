@@ -35,6 +35,7 @@ public class FriendServiceImpl implements FriendService {
     private final LoggedUserService loggedUserService;
 
     public List<UserDomain> getFriendsList() {
+        //TODO: možná disable cache
         if (this.friendsList == null) {
             this.friendsList = getFriends(loggedUserService.getUser());
         }
