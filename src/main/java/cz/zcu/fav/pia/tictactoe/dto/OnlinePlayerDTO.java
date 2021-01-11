@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class OnlinePlayer {
+public class OnlinePlayerDTO {
 
     private String username;
     private boolean inGame;

@@ -25,20 +25,62 @@ function connect(csrf) {
         stompClient.subscribe('/client/online-players', function (players) {
             showOnlinePlayers(JSON.parse(players.body));
         });
-        stompClient.subscribe('/user/invite', function (message) {
+        stompClient.subscribe('/user/game/invite', function (message) {
             confirmInvitation(JSON.parse(message.body));
+        });
+        stompClient.subscribe('/user/game/accept', function (message) {
+            gameAccepted(JSON.parse(message.body));
+        });
+        stompClient.subscribe('/user/game/decline', function (message) {
+            gameDeclined(JSON.parse(message.body))
+        });
+        stompClient.subscribe('/user/game/state', function (message) {
+            showGreeting("hra prijata..");
         });
     });
 }
 
+function gameAccepted(message) {
+    $("#gameBoard").attr('hidden', false);
+    alertify.success('User ' + message.username + ' accepted game invitation.', 3);
+    alertify.success('New game started!', 3);
+
+}
+
+function gameDeclined(message) {
+    $("#btn-play-hide").attr('disabled', false);
+    $(".btn-play").attr('disabled', false);
+    alertify.warning('User ' + message.username + ' declined game invitation.', 3);
+    //TODO: nejaky dalsi veci
+}
+
+function gameAcceptation(username, accepted) {
+    let value = {
+        'username': username,
+        'accepted': accepted
+    };
+
+    stompClient.send("/app/game/acceptation", {}, JSON.stringify(value));
+}
+
 function confirmInvitation(message) {
-    alertify.confirm("User " + message.username + " wants to play with you!",
+    let username = message.username;
+
+    alertify.confirm("User " + username + " wants to play with you!",
         function(){
-            alertify.success('Accept');
+            gameAcceptation(username,true);
+            createGame(username);
         },
         function(){
+            gameAcceptation(username,false);
             alertify.error('Decline');
-        }).set({title:"New game initiated"}).set({'labels': {ok:'Accept', cancel:'Decline'}});
+        }).set({title:"New game initiated"}).set({'labels': {ok:'Accept', cancel:'Decline'}}).autoCancel(10);
+}
+
+function createGame(username) {
+    let value = {'username': username};
+
+    stompClient.send("/app/game/create", {}, JSON.stringify(value));
 }
 
 function disconnect() {
@@ -60,8 +102,11 @@ function showGreeting(message) {
 }
 
 function inviteToGame(username) {
+    $("#btn-play-hide").attr('disabled', true);
+    $(".btn-play").attr('disabled', true);
+
     let value = {'username': username};
-    stompClient.send("/app/invite", {}, JSON.stringify(value));
+    stompClient.send("/app/game/invite", {}, JSON.stringify(value));
 }
 
 function showOnlinePlayers(message) {
@@ -72,7 +117,7 @@ function showOnlinePlayers(message) {
         onlineTable.append(
             "<tr><td class='status-tab'><span class=\"indicator " + (message[i].inGame === true ? 'in-game' : 'online') + " \"/></td>" +
             "<td class='user-tab'>" + message[i].username + "</td>" +
-            "<td class='button-play-tab'><button class='btn btn-primary btn-play' onclick=\"inviteToGame('" + message[i].username + "')\">Play</button></td>" +
+            "<td class='button-play-tab'><button " + ($("#btn-play-hide").prop('disabled') === true ? 'disabled' : 'enabled') + " class='btn btn-primary btn-play' onclick=\"inviteToGame('" + message[i].username + "')\">Play</button></td>" +
             "</tr>");
     }
 }

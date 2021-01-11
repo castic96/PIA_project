@@ -100,6 +100,7 @@
                             </div>
                             <div class="tab-pane fade" id="online-players" role="tabpanel" aria-labelledby="list-online-players">
 
+                                <button id="btn-play-hide" style="display: none;" />
                                 <table class="table align-middle" id="onlineTable">
                                 </table>
 
@@ -120,7 +121,7 @@
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
                 <div class="row">
                     <div class="col-12 d-flex justify-content-center">
-                        <table id="gameBoard">
+                        <table id="gameBoard" hidden="hidden">
                             <ui:repeat value="#{boardSize.boardSizeX}" var="boardSizeX">
                                 <tr>
                                     <ui:repeat value="#{boardSize.boardSizeY}" var="boardSizeY">
