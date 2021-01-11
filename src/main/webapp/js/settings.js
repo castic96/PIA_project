@@ -9,6 +9,7 @@ function getHeaders() {
 function ajaxSuccess(data) {
 	$('#changePersonalDetails\\:firstName').val(data.firstName);
 	$('#changePersonalDetails\\:lastName').val(data.lastName);
+	alertify.success('User successfully updated.', 2);
 }
 
 // Calls the set REST call - used as an event method for the SET button.
