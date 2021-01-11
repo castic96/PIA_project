@@ -21,7 +21,12 @@ public class UserInfoController {
 
     @PutMapping("/save")
     public UserInfoDTO saveUserInfo(@RequestBody UserInfoDTO userInfoDTO) {
-        return userService.updateUser(loggedUserService.getUser().getUsername(), userInfoDTO);
+        UserInfoDTO newUserInfoDTO = userService.updateUser(loggedUserService.getUser().getUsername(), userInfoDTO);
+
+        loggedUserService.getUser().setFirstName(newUserInfoDTO.getFirstName());
+        loggedUserService.getUser().setLastName(newUserInfoDTO.getLastName());
+
+        return newUserInfoDTO;
     }
 
 }
