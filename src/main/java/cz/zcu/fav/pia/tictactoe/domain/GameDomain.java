@@ -21,6 +21,4 @@ public class GameDomain {
 
     List<List<Integer>> gameBoard;
 
-    private boolean newGame;
-
 }

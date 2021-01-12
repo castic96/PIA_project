@@ -21,6 +21,7 @@ public class GameServiceImpl implements GameService {
 
     private final GameDomainRepository gameDomainRepository;
 
+    @Override
     public GameDomain createGame(String user1, String user2) {
 
         return new GameDomain(
@@ -29,8 +30,7 @@ public class GameServiceImpl implements GameService {
                 user2,
                 null,
                 user1,
-                initGameBoard(),
-                true
+                initGameBoard()
         );
 
     }
@@ -51,6 +51,7 @@ public class GameServiceImpl implements GameService {
         return board;
     }
 
+    @Override
     public void addGame(GameDomain game) {
         gameDomainRepository.addGame(game);
     }

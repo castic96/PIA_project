@@ -35,9 +35,30 @@ function connect(csrf) {
             gameDeclined(JSON.parse(message.body))
         });
         stompClient.subscribe('/user/game/state', function (message) {
-            showGreeting("hra prijata..");
+            gameState(JSON.parse(message.body));
         });
     });
+}
+
+function gameState(message) {
+    let board = message.gameBoard;
+
+    for (let i = 0; i < board.length; i++) {
+        for (let j = 0; j < board[i].length; j++) {
+            let char = '';
+
+            if (board[i][j] === 1) {
+                char = 'O';
+            }
+
+            if (board[i][j] === 2) {
+                char = 'X';
+            }
+
+            $("#" + i + j).html(char);
+        }
+    }
+
 }
 
 function gameAccepted(message) {
@@ -68,8 +89,10 @@ function confirmInvitation(message) {
 
     alertify.confirm("User " + username + " wants to play with you!",
         function(){
+            $("#gameBoard").attr('hidden', false);
             gameAcceptation(username,true);
             createGame(username);
+            alertify.success('New game started!', 3);
         },
         function(){
             gameAcceptation(username,false);
