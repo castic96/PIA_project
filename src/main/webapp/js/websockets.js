@@ -37,6 +37,12 @@ function connect(csrf) {
         stompClient.subscribe('/user/game/state', function (message) {
             gameState(JSON.parse(message.body));
         });
+        stompClient.subscribe('/user/game/state/my-turn', function (message) {
+            gameStateTurn(JSON.parse(message.body), true);
+        });
+        stompClient.subscribe('/user/game/state/opp-turn', function (message) {
+            gameStateTurn(JSON.parse(message.body), false);
+        });
         stompClient.subscribe('/user/game/win', function (message) {
             showGreeting("you win");
         });
@@ -47,6 +53,10 @@ function connect(csrf) {
 }
 
 function gameMove(id) {
+    if ($("#disableTable").html() === "t") {
+        return;
+    }
+
     if(!$.trim($("#" + id).html()).length) {
         let move = {'position' : id};
         stompClient.send("/app/game/move", {}, JSON.stringify(move));
@@ -54,6 +64,16 @@ function gameMove(id) {
     }
 }
 
+function gameStateTurn(message, myTurn) {
+    if (myTurn) {
+        $("#disableTable").html("f");
+    }
+    else {
+        $("#disableTable").html("t");
+    }
+
+    gameState(message);
+}
 function gameState(message) {
     let board = message.gameBoard;
 

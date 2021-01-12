@@ -49,10 +49,18 @@ public class GameController {
 
     @MessageMapping("/game/move")
     public void moveInGame(MoveDTO message) {
+        //TODO: overit ze hraje spravny hrac.
 
         GameDomain updatedGame = gameService.move(loggedUserService.getUser().getUsername(), message.getPosition());
 
         //TODO: poslat incorrect move, ale nepřepnu uživatele co je na řadě, tak se hraje dál
+
+        if (loggedUserService.getUser().getUsername().equals(updatedGame.getUsername1())) {
+            updatedGame.setCurrentUserName(updatedGame.getUsername2());
+        }
+        else {
+            updatedGame.setCurrentUserName(updatedGame.getUsername1());
+        }
 
         updateGameBoard(updatedGame);
     }
@@ -81,20 +89,21 @@ public class GameController {
             //TODO: zrušit hru v listu her
         }
         else {
-            simpMessagingTemplate.convertAndSendToUser(game.getUsername1(),
-                    "/game/state", game);
 
-            simpMessagingTemplate.convertAndSendToUser(game.getUsername2(),
-                    "/game/state", game);
+            if (game.getCurrentUserName().equals(game.getUsername1())) {
+                simpMessagingTemplate.convertAndSendToUser(game.getUsername1(),
+                        "/game/state/my-turn", game);
+
+                simpMessagingTemplate.convertAndSendToUser(game.getUsername2(),
+                        "/game/state/opp-turn", game);
+            }
+            else {
+                simpMessagingTemplate.convertAndSendToUser(game.getUsername2(),
+                        "/game/state/my-turn", game);
+
+                simpMessagingTemplate.convertAndSendToUser(game.getUsername1(),
+                        "/game/state/opp-turn", game);
+            }
         }
-
-
-
-
-
-
     }
-
-
-
 }
