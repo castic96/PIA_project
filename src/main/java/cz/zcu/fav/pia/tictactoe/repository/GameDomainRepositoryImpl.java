@@ -31,6 +31,16 @@ public class GameDomainRepositoryImpl implements GameDomainRepository {
         return null;
     }
 
+    public GameDomain loadGameByUser(String username) {
+        for (GameDomain game : games) {
+            if (game.getUsername1().equals(username) || game.getUsername2().equals(username)) {
+                return game;
+            }
+        }
+
+        return null;
+    }
+
     public int generateId() {
         id++;
         return id;

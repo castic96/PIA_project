@@ -2,6 +2,7 @@ package cz.zcu.fav.pia.tictactoe.controller;
 
 import cz.zcu.fav.pia.tictactoe.domain.GameDomain;
 import cz.zcu.fav.pia.tictactoe.dto.GameAcceptationDTO;
+import cz.zcu.fav.pia.tictactoe.dto.MoveDTO;
 import cz.zcu.fav.pia.tictactoe.dto.UserDTO;
 import cz.zcu.fav.pia.tictactoe.service.GameService;
 import cz.zcu.fav.pia.tictactoe.util.LoggedUserService;
@@ -46,14 +47,50 @@ public class GameController {
         updateGameBoard(newGame);
     }
 
+    @MessageMapping("/game/move")
+    public void moveInGame(MoveDTO message) {
+
+        GameDomain updatedGame = gameService.move(loggedUserService.getUser().getUsername(), message.getPosition());
+
+        updateGameBoard(updatedGame);
+    }
+
     private void updateGameBoard(GameDomain game) {
-        log.info("ServerController.updateGameState");
+        if (game.getWinner() != null) {
+            //TODO: zapsat statistiky
+            simpMessagingTemplate.convertAndSendToUser(game.getUsername1(),
+                    "/game/state", game);
 
-        simpMessagingTemplate.convertAndSendToUser(game.getUsername1(),
-                "/game/state", game);
+            simpMessagingTemplate.convertAndSendToUser(game.getUsername2(),
+                    "/game/state", game);
 
-        simpMessagingTemplate.convertAndSendToUser(game.getUsername2(),
-                "/game/state", game);
+            if (game.getWinner().equals(game.getUsername1())) {
+                simpMessagingTemplate.convertAndSendToUser(game.getUsername1(),
+                        "/game/win", game);
+                simpMessagingTemplate.convertAndSendToUser(game.getUsername2(),
+                        "/game/lose", game);
+            }
+            else {
+                simpMessagingTemplate.convertAndSendToUser(game.getUsername2(),
+                        "/game/win", game);
+                simpMessagingTemplate.convertAndSendToUser(game.getUsername1(),
+                        "/game/lose", game);
+            }
+            //TODO: zrušit hru v listu her
+        }
+        else {
+            simpMessagingTemplate.convertAndSendToUser(game.getUsername1(),
+                    "/game/state", game);
+
+            simpMessagingTemplate.convertAndSendToUser(game.getUsername2(),
+                    "/game/state", game);
+        }
+
+
+
+
+
+
     }
 
 

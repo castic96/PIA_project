@@ -12,4 +12,6 @@ public interface GameDomainRepository {
 
     int generateId();
 
+    GameDomain loadGameByUser(String username);
+
 }

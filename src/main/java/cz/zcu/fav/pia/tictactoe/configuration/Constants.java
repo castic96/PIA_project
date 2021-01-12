@@ -10,6 +10,7 @@ public final class Constants {
 
     public static final int BOARD_SIZE_X = 5;
     public static final int BOARD_SIZE_Y = 5;
+    public static final int WINNING_SEQUENCE_COUNT = 3;
 
     /*
     public static final String SYSTEM_ACCOUNT = "system";

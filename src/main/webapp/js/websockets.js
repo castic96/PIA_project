@@ -37,7 +37,20 @@ function connect(csrf) {
         stompClient.subscribe('/user/game/state', function (message) {
             gameState(JSON.parse(message.body));
         });
+        stompClient.subscribe('/user/game/win', function (message) {
+            showGreeting("you win");
+        });
+        stompClient.subscribe('/user/game/lose', function (message) {
+            showGreeting("you lose");
+        });
     });
+}
+
+function gameMove(id) {
+    let move = {'position' : id};
+    stompClient.send("/app/game/move", {}, JSON.stringify(move));
+
+    //TODO: pak disablovat herní plohchu
 }
 
 function gameState(message) {
@@ -55,7 +68,7 @@ function gameState(message) {
                 char = 'X';
             }
 
-            $("#" + i + j).html(char);
+            $("#" + i + "-" +  j).html(char);
         }
     }
 

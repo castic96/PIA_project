@@ -8,4 +8,6 @@ public interface GameService {
 
     void addGame(GameDomain game);
 
+    GameDomain move(String username, String positionStr);
+
 }
