@@ -47,10 +47,11 @@ function connect(csrf) {
 }
 
 function gameMove(id) {
-    let move = {'position' : id};
-    stompClient.send("/app/game/move", {}, JSON.stringify(move));
-
-    //TODO: pak disablovat herní plohchu
+    if(!$.trim($("#" + id).html()).length) {
+        let move = {'position' : id};
+        stompClient.send("/app/game/move", {}, JSON.stringify(move));
+        //TODO: pak disablovat herní plohchu
+    }
 }
 
 function gameState(message) {

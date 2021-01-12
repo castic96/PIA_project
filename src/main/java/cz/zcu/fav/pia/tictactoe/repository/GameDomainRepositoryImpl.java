@@ -2,11 +2,13 @@ package cz.zcu.fav.pia.tictactoe.repository;
 
 import cz.zcu.fav.pia.tictactoe.domain.GameDomain;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.context.annotation.ApplicationScope;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Repository
+@ApplicationScope
 public class GameDomainRepositoryImpl implements GameDomainRepository {
 
     private static int id = 0;

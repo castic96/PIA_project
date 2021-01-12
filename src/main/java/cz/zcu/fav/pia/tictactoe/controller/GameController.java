@@ -52,6 +52,8 @@ public class GameController {
 
         GameDomain updatedGame = gameService.move(loggedUserService.getUser().getUsername(), message.getPosition());
 
+        //TODO: poslat incorrect move, ale nepřepnu uživatele co je na řadě, tak se hraje dál
+
         updateGameBoard(updatedGame);
     }
 
