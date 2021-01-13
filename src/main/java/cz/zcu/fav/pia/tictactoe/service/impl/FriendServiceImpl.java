@@ -1,4 +1,4 @@
-package cz.zcu.fav.pia.tictactoe.service;
+package cz.zcu.fav.pia.tictactoe.service.impl;
 
 import cz.zcu.fav.pia.tictactoe.domain.UserDomain;
 import cz.zcu.fav.pia.tictactoe.entity.FriendEntity;
@@ -6,6 +6,7 @@ import cz.zcu.fav.pia.tictactoe.entity.RoleEntity;
 import cz.zcu.fav.pia.tictactoe.entity.UserEntity;
 import cz.zcu.fav.pia.tictactoe.repository.FriendEntityRepository;
 import cz.zcu.fav.pia.tictactoe.repository.UserEntityRepository;
+import cz.zcu.fav.pia.tictactoe.service.FriendService;
 import cz.zcu.fav.pia.tictactoe.util.LoggedUserService;
 import cz.zcu.fav.pia.tictactoe.util.Utils;
 import lombok.RequiredArgsConstructor;

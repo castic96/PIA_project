@@ -1,8 +1,9 @@
-package cz.zcu.fav.pia.tictactoe.service;
+package cz.zcu.fav.pia.tictactoe.service.impl;
 
 import cz.zcu.fav.pia.tictactoe.configuration.Constants;
 import cz.zcu.fav.pia.tictactoe.domain.GameDomain;
 import cz.zcu.fav.pia.tictactoe.repository.GameDomainRepository;
+import cz.zcu.fav.pia.tictactoe.service.GameService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;

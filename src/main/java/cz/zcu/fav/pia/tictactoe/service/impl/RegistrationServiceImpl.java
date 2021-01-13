@@ -1,6 +1,8 @@
-package cz.zcu.fav.pia.tictactoe.service;
+package cz.zcu.fav.pia.tictactoe.service.impl;
 
 import cz.zcu.fav.pia.tictactoe.domain.RoleEnum;
+import cz.zcu.fav.pia.tictactoe.service.RegistrationService;
+import cz.zcu.fav.pia.tictactoe.service.UserService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;

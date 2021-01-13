@@ -1,6 +1,7 @@
-package cz.zcu.fav.pia.tictactoe.repository;
+package cz.zcu.fav.pia.tictactoe.repository.impl;
 
 import cz.zcu.fav.pia.tictactoe.domain.GameDomain;
+import cz.zcu.fav.pia.tictactoe.repository.GameDomainRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.context.annotation.ApplicationScope;
 

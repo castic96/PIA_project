@@ -1,8 +1,9 @@
-package cz.zcu.fav.pia.tictactoe.service;
+package cz.zcu.fav.pia.tictactoe.service.impl;
 
 import cz.zcu.fav.pia.tictactoe.domain.RoleEnum;
 import cz.zcu.fav.pia.tictactoe.entity.RoleEntity;
 import cz.zcu.fav.pia.tictactoe.repository.RoleEntityRepository;
+import cz.zcu.fav.pia.tictactoe.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
