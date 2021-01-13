@@ -1,0 +1,46 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:sec="https://joinfaces.org/security"
+
+                template="/WEB-INF/jsf/base.xhtml"
+                lang="cs">
+
+    <ui:define name="stylesheets">
+        <link rel="stylesheet"
+              type="text/css"
+              href="/css/statistics.css"
+        />
+    </ui:define>
+
+    <ui:define name="title">Statistics</ui:define>
+
+    <ui:define name="body">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Statistics</h1>
+
+                    <h:dataTable
+                            value="#{statisticsService.resultDomainList}"
+                            var="result"
+                            styleClass="table"
+                            headerClass="align-middle"
+                            id="usersTable"
+                    >
+                        <h:column>
+                            <f:facet name="header">Opponent</f:facet>
+                            #{result.opponentUsername}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Result</f:facet>
+                            #{result.winner}
+                        </h:column>
+                    </h:dataTable>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>
