@@ -24,6 +24,10 @@ public class GameDomainRepositoryImpl implements GameDomainRepository {
         games.remove(game);
     }
 
+    public List<GameDomain> getAllGames() {
+        return this.games;
+    }
+
     public GameDomain loadGameById(int id) {
         for (GameDomain game : games) {
             if (game.getID() == id) {

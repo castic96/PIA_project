@@ -2,6 +2,8 @@ package cz.zcu.fav.pia.tictactoe.repository;
 
 import cz.zcu.fav.pia.tictactoe.domain.GameDomain;
 
+import java.util.List;
+
 public interface GameDomainRepository {
 
     GameDomain loadGameById(int id);
@@ -13,5 +15,7 @@ public interface GameDomainRepository {
     int generateId();
 
     GameDomain loadGameByUser(String username);
+
+    List<GameDomain> getAllGames();
 
 }

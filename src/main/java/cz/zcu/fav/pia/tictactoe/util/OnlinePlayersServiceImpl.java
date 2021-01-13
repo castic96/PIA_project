@@ -1,6 +1,7 @@
 package cz.zcu.fav.pia.tictactoe.util;
 
 import cz.zcu.fav.pia.tictactoe.dto.OnlinePlayerDTO;
+import cz.zcu.fav.pia.tictactoe.service.GameService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.user.SimpUser;
 import org.springframework.messaging.simp.user.SimpUserRegistry;
@@ -15,14 +16,18 @@ import java.util.stream.Collectors;
 public class OnlinePlayersServiceImpl implements OnlinePlayersService {
 
     private final SimpUserRegistry simpUserRegistry;
+    private final GameService gameService;
 
     public List<OnlinePlayerDTO> getOnlinePlayers() {
         List<OnlinePlayerDTO> onlinePlayers = new ArrayList<>();
         List<String> onlinePlayersStr;
+        boolean inGame = false;
 
         onlinePlayersStr = simpUserRegistry.getUsers().stream().map(SimpUser::getName).collect(Collectors.toList());
 
         LoggedUserService loggedUserService = new LoggedUserServiceImpl();
+
+        List<String> playersInGame = gameService.playersInGame();
 
         for(String onlinePlayerStr : onlinePlayersStr) {
             if (loggedUserService.getUser() != null) {
@@ -35,7 +40,9 @@ public class OnlinePlayersServiceImpl implements OnlinePlayersService {
 
             }
 
-            onlinePlayers.add(new OnlinePlayerDTO(onlinePlayerStr, false));
+            inGame = playersInGame.contains(onlinePlayerStr);
+
+            onlinePlayers.add(new OnlinePlayerDTO(onlinePlayerStr, inGame));
         }
 
         return onlinePlayers;

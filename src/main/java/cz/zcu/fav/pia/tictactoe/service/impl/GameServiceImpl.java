@@ -63,6 +63,24 @@ public class GameServiceImpl implements GameService {
         gameDomainRepository.removeGame(game);
     }
 
+    public List<String> playersInGame() {
+        List<String> playersInGame = new ArrayList<>();
+
+        gameDomainRepository.getAllGames();
+
+        for (GameDomain gameDomain : gameDomainRepository.getAllGames()) {
+            if (!playersInGame.contains(gameDomain.getUsername1())) {
+                playersInGame.add(gameDomain.getUsername1());
+            }
+
+            if (!playersInGame.contains(gameDomain.getUsername2())) {
+                playersInGame.add(gameDomain.getUsername2());
+            }
+        }
+
+        return playersInGame;
+    }
+
     public GameDomain move(String username, String positionStr) {
         GameDomain game = gameDomainRepository.loadGameByUser(username);
         List<String> positionsList = Arrays.asList(positionStr.split("-"));

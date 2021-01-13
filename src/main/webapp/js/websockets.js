@@ -203,7 +203,7 @@ function showOnlinePlayers(message) {
     for (let i = 0; i < message.length; i++) {
         if (message[i].username.localeCompare($("#loggedUser").html()) === 0) continue;
         onlineTable.append(
-            "<tr><td class='status-tab'><span class=\"indicator " + (message[i].inGame === true ? 'in-game' : 'online') + " \"/></td>" +
+            "<tr><td class='status-tab'><span title=" + (message[i].inGame === true ? ('Playing') : ('Online')) + " class=\"indicator " + (message[i].inGame === true ? 'in-game' : 'online') + " \"/></td>" +
             "<td class='user-tab'>" + message[i].username + "</td>" +
             "<td class='button-play-tab'><button " + ($("#btn-play-hide").prop('disabled') === true ? 'disabled' : 'enabled') + " class='btn btn-primary btn-play' onclick=\"inviteToGame('" + message[i].username + "')\">Play</button></td>" +
             "</tr>");
