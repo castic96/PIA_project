@@ -24,6 +24,7 @@ public class GameController {
     @MessageMapping("/game/invite")
     public void invitePlayer(UserDTO message) {
         log.info(message.getUsername());
+        //TODO: kontrolovat, zda hrac uz nehraje
         simpMessagingTemplate.convertAndSendToUser(message.getUsername(),
                 "/game/invite", new UserDTO(loggedUserService.getUser().getUsername()));
     }
@@ -86,7 +87,9 @@ public class GameController {
                 simpMessagingTemplate.convertAndSendToUser(game.getUsername1(),
                         "/game/lose", game);
             }
-            //TODO: zrušit hru v listu her
+
+            gameService.removeGame(game);
+
         }
         else {
 

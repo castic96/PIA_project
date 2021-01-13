@@ -44,12 +44,27 @@ function connect(csrf) {
             gameStateTurn(JSON.parse(message.body), false);
         });
         stompClient.subscribe('/user/game/win', function (message) {
-            showGreeting("you win");
+            gameWin(JSON.parse(message.body));
         });
         stompClient.subscribe('/user/game/lose', function (message) {
-            showGreeting("you lose");
+            gameLose(JSON.parse(message.body));
         });
     });
+}
+
+function gameWin(message) {
+    $("#disableTable").html("t");
+    $("#gameLabel").html("You win!");
+
+    gameState(message);
+
+}
+
+function gameLose(message) {
+    $("#disableTable").html("t");
+    $("#gameLabel").html("You lose!");
+
+    gameState(message);
 }
 
 function gameMove(id) {
@@ -66,9 +81,11 @@ function gameMove(id) {
 
 function gameStateTurn(message, myTurn) {
     if (myTurn) {
+        $("#gameLabel").html("It is your turn!");
         $("#disableTable").html("f");
     }
     else {
+        $("#gameLabel").html("Waiting for opponent's turn...");
         $("#disableTable").html("t");
     }
 

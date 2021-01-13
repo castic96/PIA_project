@@ -75,3 +75,7 @@ table#gameBoard td:hover {
 .btn-play {
     line-height: 12px;
 }
+
+#gameLabel {
+    font-size: 16pt;
+}
