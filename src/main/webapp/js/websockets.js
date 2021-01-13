@@ -87,7 +87,10 @@ function gameMove(id) {
 
 function gameStateTurn(message, myTurn) {
     let gameBoard = $("table#gameBoard");
-    gameBoard.removeClass("disabled");
+
+    if (gameBoard.hasClass("disabled")) {
+        gameBoard.removeClass("disabled");
+    }
 
     if (myTurn) {
         $("#gameLabel").html("It is your turn!");
