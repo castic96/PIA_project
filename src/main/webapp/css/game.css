@@ -9,9 +9,31 @@ table#gameBoard td {
     border: 2px solid;
 }
 
-table#gameBoard td:hover {
+table#gameBoard.enabled td {
+    color: #2f2f2f;
+}
+
+table#gameBoard.enabled td:hover {
     background-color: lightgray;
     cursor: pointer;
+}
+
+table#gameBoard.disabled td {
+    color: #b4b4b4;
+}
+
+table#gameBoard.disabled-in-game td {
+    color: #2f2f2f;
+}
+
+table#gameBoard.disabled-in-game td:hover {
+    background-color: initial;
+    cursor: default;
+}
+
+table#gameBoard.disabled td:hover {
+    background-color: initial;
+    cursor: default;
 }
 
 .connect-btn {

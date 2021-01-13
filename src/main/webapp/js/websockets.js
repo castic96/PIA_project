@@ -53,22 +53,28 @@ function connect(csrf) {
 }
 
 function gameWin(message) {
-    $("#disableTable").html("t");
     $("#gameLabel").html("You win!");
 
-    gameState(message);
-
+    gameEnd(message);
 }
 
 function gameLose(message) {
-    $("#disableTable").html("t");
     $("#gameLabel").html("You lose!");
+
+    gameEnd(message);
+}
+
+function gameEnd(message) {
+    let gameBoard = $("table#gameBoard");
+    gameBoard.removeClass("disabled-in-game");
+    gameBoard.removeClass("enabled");
+    gameBoard.addClass("disabled");
 
     gameState(message);
 }
 
 function gameMove(id) {
-    if ($("#disableTable").html() === "t") {
+    if (!$("table#gameBoard").hasClass("enabled")) {
         return;
     }
 
@@ -80,13 +86,18 @@ function gameMove(id) {
 }
 
 function gameStateTurn(message, myTurn) {
+    let gameBoard = $("table#gameBoard");
+    gameBoard.removeClass("disabled");
+
     if (myTurn) {
         $("#gameLabel").html("It is your turn!");
-        $("#disableTable").html("f");
+        gameBoard.removeClass("disabled-in-game");
+        gameBoard.addClass("enabled");
     }
     else {
-        $("#gameLabel").html("Waiting for opponent's turn...");
-        $("#disableTable").html("t");
+        $("#gameLabel").html("Waiting for opponent...");
+        gameBoard.removeClass("enabled");
+        gameBoard.addClass("disabled-in-game");
     }
 
     gameState(message);

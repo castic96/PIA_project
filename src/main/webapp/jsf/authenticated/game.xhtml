@@ -120,12 +120,11 @@
             </div>
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
                 <div class="row d-flex justify-content-center">
-                    <div id="gameLabel"></div>
+                    <label id="gameLabel">Challenge some opponent...</label>
                 </div>
                 <div class="row">
                     <div class="col-12 d-flex justify-content-center">
-                        <div id="disableTable" style="display: none">t</div>
-                        <table id="gameBoard" hidden="hidden">
+                        <table id="gameBoard" class="disabled">
                             <ui:repeat value="#{boardSize.boardSizeX}" var="boardSizeX">
                                 <tr>
                                     <ui:repeat value="#{boardSize.boardSizeY}" var="boardSizeY">
