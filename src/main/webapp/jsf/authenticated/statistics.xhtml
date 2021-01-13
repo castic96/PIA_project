@@ -31,11 +31,21 @@
                     >
                         <h:column>
                             <f:facet name="header">Opponent</f:facet>
-                            #{result.opponentUsername}
+                            <h:outputText>
+                                #{result.opponentUsername}
+                            </h:outputText>
                         </h:column>
                         <h:column>
                             <f:facet name="header">Result</f:facet>
-                            #{result.winner}
+                            <h:outputText>
+                                <i class="fas fa-#{result.winner ? 'check' : 'times'}"></i>
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">End of game</f:facet>
+                            <h:outputText>
+                                #{result.formattedDateTime}
+                            </h:outputText>
                         </h:column>
                     </h:dataTable>
                 </div>
