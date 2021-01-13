@@ -81,6 +81,19 @@ public class GameServiceImpl implements GameService {
         return playersInGame;
     }
 
+    public GameDomain giveUp(String username) {
+        GameDomain game = gameDomainRepository.loadGameByUser(username);
+
+        if (game.getUsername1().equals(username)) {
+            game.setWinner(game.getUsername2());
+        }
+        else {
+            game.setWinner(game.getUsername1());
+        }
+
+        return game;
+    }
+
     public GameDomain move(String username, String positionStr) {
         GameDomain game = gameDomainRepository.loadGameByUser(username);
         List<String> positionsList = Arrays.asList(positionStr.split("-"));

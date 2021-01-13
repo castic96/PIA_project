@@ -68,14 +68,31 @@ public class GameController {
         updateGameBoard(updatedGame);
     }
 
+    @MessageMapping("/game/give-up")
+    public void giveUpGame() {
+
+        GameDomain game = gameService.giveUp(loggedUserService.getUser().getUsername());
+
+        if (game.getWinner().equals(game.getUsername1())) {
+            simpMessagingTemplate.convertAndSendToUser(game.getUsername1(),
+                    "/game/win-give-up", game);
+            simpMessagingTemplate.convertAndSendToUser(game.getUsername2(),
+                    "/game/lose-give-up", game);
+        }
+        else {
+            simpMessagingTemplate.convertAndSendToUser(game.getUsername2(),
+                    "/game/win-give-up", game);
+            simpMessagingTemplate.convertAndSendToUser(game.getUsername1(),
+                    "/game/lose-give-up", game);
+        }
+
+        resultService.addResult(game.getUsername1(), game.getUsername2(), game.getWinner());
+        gameService.removeGame(game);
+
+    }
+
     private void updateGameBoard(GameDomain game) {
         if (game.getWinner() != null) {
-
-            simpMessagingTemplate.convertAndSendToUser(game.getUsername1(),
-                    "/game/state", game);
-
-            simpMessagingTemplate.convertAndSendToUser(game.getUsername2(),
-                    "/game/state", game);
 
             if (game.getWinner().equals(game.getUsername1())) {
                 simpMessagingTemplate.convertAndSendToUser(game.getUsername1(),

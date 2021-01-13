@@ -16,4 +16,6 @@ public interface GameService {
 
     List<String> playersInGame();
 
+    GameDomain giveUp(String username);
+
 }

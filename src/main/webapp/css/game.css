@@ -101,3 +101,11 @@ table#gameBoard.disabled td:hover {
 #gameLabel {
     font-size: 16pt;
 }
+
+#give-up-btn {
+    line-height: 16px;
+    vertical-align: middle;
+    margin-top: 20px;
+    disabled: true;
+
+}

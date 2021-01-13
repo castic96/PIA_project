@@ -50,7 +50,26 @@ function connect(csrf) {
         stompClient.subscribe('/user/game/lose', function (message) {
             gameLose(JSON.parse(message.body));
         });
+        stompClient.subscribe('/user/game/win-give-up', function (message) {
+            gameWinGiveUp(JSON.parse(message.body));
+        });
+        stompClient.subscribe('/user/game/lose-give-up', function (message) {
+            gameLoseGiveUp(JSON.parse(message.body));
+        });
     });
+}
+
+function gameWinGiveUp(message) {
+    $("#gameLabel").html("You win by default!");
+    alertify.success("Opponent gave up the game.", 3);
+
+    gameEnd(message);
+}
+
+function gameLoseGiveUp(message) {
+    $("#gameLabel").html("You lose by default!");
+
+    gameEnd(message);
 }
 
 function gameWin(message) {
@@ -72,6 +91,7 @@ function gameEnd(message) {
     gameBoard.addClass("disabled");
 
     $("#btn-play-hide").attr('disabled', false);
+    $("#give-up-btn").attr('disabled', true);
 
     gameState(message);
 }
@@ -140,6 +160,7 @@ function gameState(message) {
 
 function gameAccepted(message) {
     $("#gameBoard").attr('hidden', false);
+    $("#give-up-btn").attr('disabled', false);
     alertify.success('User ' + message.username + ' accepted game invitation.', 3);
     alertify.success('New game started!', 3);
 
@@ -166,13 +187,14 @@ function confirmInvitation(message) {
     alertify.confirm("User " + username + " wants to play with you!",
         function(){
             $("#gameBoard").attr('hidden', false);
+            $("#btn-play-hide").attr('disabled', true);
             gameAcceptation(username,true);
             createGame(username);
+            $("#give-up-btn").attr('disabled', false);
             alertify.success('New game started!', 3);
         },
         function(){
             gameAcceptation(username,false);
-            alertify.error('Decline');
         }).set({title:"New game initiated"}).set({'labels': {ok:'Accept', cancel:'Decline'}}).autoCancel(10);
 }
 
@@ -180,6 +202,19 @@ function createGame(username) {
     let value = {'username': username};
 
     stompClient.send("/app/game/create", {}, JSON.stringify(value));
+}
+
+function disconnectVerify() {
+    if ($("#btn-play-hide").prop('disabled') === true) {
+        alertify.confirm("Do you really want to disconnect and leave the game?",
+            function(){
+                disconnect();
+            },
+            function(){}).set({title:"Disconnect"}).set({'labels': {ok:'Yes', cancel:'No'}}).autoCancel(10);
+    }
+    else {
+        disconnect();
+    }
 }
 
 function disconnect() {
@@ -225,6 +260,14 @@ function showOnlinePlayers(message) {
     }
 }
 
+function giveUp() {
+    alertify.confirm("Do you really want to give up the game?",
+        function(){
+            stompClient.send("/app/game/give-up", {}, {});
+        },
+        function(){}).set({title:"Surrender"}).set({'labels': {ok:'Yes', cancel:'No'}}).autoCancel(10);
+}
+
 $(function () {
     $(".ws-form").on('submit', function (e) {
         e.preventDefault();
@@ -232,6 +275,6 @@ $(function () {
     $( "#connect" ).click(function() {
         connect($(this).attr("data-csrf"));
     });
-    $( "#disconnect" ).click(function() { disconnect(); });
+    $( "#disconnect" ).click(function() { disconnectVerify(); });
     $( "#send" ).click(function() { sendName(); });
 });
