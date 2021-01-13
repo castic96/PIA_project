@@ -35,9 +35,6 @@ function connect(csrf) {
         stompClient.subscribe('/user/game/decline', function (message) {
             gameDeclined(JSON.parse(message.body))
         });
-        stompClient.subscribe('/user/game/state', function (message) {
-            gameState(JSON.parse(message.body));
-        });
         stompClient.subscribe('/user/game/state/my-turn', function (message) {
             gameStateTurn(JSON.parse(message.body), true);
         });
