@@ -18,6 +18,7 @@ function connect(csrf) {
     stompClient.connect({ "X-CSRF-TOKEN": csrf }, function (frame) {
         setConnected(true);
         alertify.success('Successfully connected.', 2);
+        $("#gameLabel").html("Challenge some opponent...");
         console.log('Connected: ' + frame);
         stompClient.subscribe('/client/greetings', function (greeting) {
             showGreeting(JSON.parse(greeting.body).content);
@@ -70,6 +71,8 @@ function gameEnd(message) {
     gameBoard.removeClass("enabled");
     gameBoard.addClass("disabled");
 
+    $("#btn-play-hide").attr('disabled', false);
+
     gameState(message);
 }
 
@@ -81,7 +84,9 @@ function gameMove(id) {
     if(!$.trim($("#" + id).html()).length) {
         let move = {'position' : id};
         stompClient.send("/app/game/move", {}, JSON.stringify(move));
-        //TODO: pak disablovat herní plohchu
+
+        gameBoard.removeClass("enabled");
+        gameBoard.addClass("disabled-in-game");
     }
 }
 
@@ -99,8 +104,15 @@ function gameStateTurn(message, myTurn) {
     }
     else {
         $("#gameLabel").html("Waiting for opponent...");
-        gameBoard.removeClass("enabled");
-        gameBoard.addClass("disabled-in-game");
+
+        if (gameBoard.hasClass("enabled")) {
+            gameBoard.removeClass("enabled");
+        }
+
+        if (!gameBoard.hasClass("disabled-in-game")) {
+            gameBoard.addClass("disabled-in-game");
+        }
+
     }
 
     gameState(message);
@@ -135,7 +147,6 @@ function gameAccepted(message) {
 
 function gameDeclined(message) {
     $("#btn-play-hide").attr('disabled', false);
-    $(".btn-play").attr('disabled', false);
     alertify.warning('User ' + message.username + ' declined game invitation.', 3);
     //TODO: nejaky dalsi veci
 }
@@ -172,6 +183,8 @@ function createGame(username) {
 }
 
 function disconnect() {
+    $("#gameLabel").html("Connect to game...");
+
     if (stompClient !== null) {
         stompClient.disconnect();
     }
@@ -202,10 +215,12 @@ function showOnlinePlayers(message) {
     onlineTable.html("<tr><th class=\"status-tab\"></th><th class=\"user-tab\">User</th></tr>");
     for (let i = 0; i < message.length; i++) {
         if (message[i].username.localeCompare($("#loggedUser").html()) === 0) continue;
+
+        let inGame = message[i].inGame;
         onlineTable.append(
-            "<tr><td class='status-tab'><span title=" + (message[i].inGame === true ? ('Playing') : ('Online')) + " class=\"indicator " + (message[i].inGame === true ? 'in-game' : 'online') + " \"/></td>" +
+            "<tr><td class='status-tab'><span title=" + (inGame === true ? ('Playing') : ('Online')) + " class=\"indicator " + (inGame === true ? 'in-game' : 'online') + " \"/></td>" +
             "<td class='user-tab'>" + message[i].username + "</td>" +
-            "<td class='button-play-tab'><button " + ($("#btn-play-hide").prop('disabled') === true ? 'disabled' : 'enabled') + " class='btn btn-primary btn-play' onclick=\"inviteToGame('" + message[i].username + "')\">Play</button></td>" +
+            "<td class='button-play-tab'><button " + ($("#btn-play-hide").prop('disabled') === true ? 'disabled' : (inGame === true ? 'disabled' : 'enabled')) + " class='btn btn-primary btn-play' onclick=\"inviteToGame('" + message[i].username + "')\">Play</button></td>" +
             "</tr>");
     }
 }
