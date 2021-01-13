@@ -57,6 +57,11 @@ public class GameServiceImpl implements GameService {
         gameDomainRepository.addGame(game);
     }
 
+    @Override
+    public void removeGame(GameDomain game) {
+        gameDomainRepository.removeGame(game);
+    }
+
     public GameDomain move(String username, String positionStr) {
         GameDomain game = gameDomainRepository.loadGameByUser(username);
         List<String> positionsList = Arrays.asList(positionStr.split("-"));

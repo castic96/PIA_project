@@ -10,4 +10,6 @@ public interface GameService {
 
     GameDomain move(String username, String positionStr);
 
+    void removeGame(GameDomain game);
+
 }
