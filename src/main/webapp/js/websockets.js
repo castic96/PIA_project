@@ -266,6 +266,12 @@ function giveUp() {
 }
 
 $(function () {
+    window.onbeforeunload = function() {
+        if ($("#btn-play-hide").prop('disabled') === true) {
+            return "Leaving this page will reset the wizard";
+        }
+    };
+
     $(".ws-form").on('submit', function (e) {
         e.preventDefault();
     });
