@@ -5,6 +5,7 @@ import cz.zcu.fav.pia.tictactoe.dto.GameAcceptationDTO;
 import cz.zcu.fav.pia.tictactoe.dto.MoveDTO;
 import cz.zcu.fav.pia.tictactoe.dto.UserDTO;
 import cz.zcu.fav.pia.tictactoe.service.GameService;
+import cz.zcu.fav.pia.tictactoe.service.ResultService;
 import cz.zcu.fav.pia.tictactoe.util.LoggedUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ public class GameController {
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final LoggedUserService loggedUserService;
     private final GameService gameService;
+    private final ResultService resultService;
 
     @MessageMapping("/game/invite")
     public void invitePlayer(UserDTO message) {
@@ -68,7 +70,7 @@ public class GameController {
 
     private void updateGameBoard(GameDomain game) {
         if (game.getWinner() != null) {
-            //TODO: zapsat statistiky
+
             simpMessagingTemplate.convertAndSendToUser(game.getUsername1(),
                     "/game/state", game);
 
@@ -88,6 +90,7 @@ public class GameController {
                         "/game/lose", game);
             }
 
+            resultService.addResult(game.getUsername1(), game.getUsername2(), game.getWinner());
             gameService.removeGame(game);
 
         }
