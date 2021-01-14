@@ -1,5 +1,6 @@
 let stompClient = null;
-let intervalID;
+let intervalIDOnline;
+let intervalIDFriends;
 
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
@@ -26,6 +27,9 @@ function connect(csrf) {
         });
         stompClient.subscribe('/user/client/online-players', function (players) {
             showOnlinePlayers(JSON.parse(players.body));
+        });
+        stompClient.subscribe('/user/client/friends', function (friends) {
+            showFriends(JSON.parse(friends.body));
         });
         stompClient.subscribe('/user/game/invite', function (message) {
             confirmInvitation(JSON.parse(message.body));
@@ -68,7 +72,14 @@ function connect(csrf) {
         });
     });
 
-    intervalID = setInterval(onlinePlayersRequest, 1000);
+    intervalIDOnline = setInterval(onlinePlayersRequest, 1000);
+    intervalIDFriends = setInterval(friendsRequest, 1000);
+}
+
+function friendsRequest() {
+    if (stompClient !== null) {
+        stompClient.send("/app/client/friends", {}, {});
+    }
 }
 
 function onlinePlayersRequest() {
@@ -303,10 +314,12 @@ function disconnect() {
         stompClient.disconnect();
     }
     setConnected(false);
-    clearInterval(intervalID);
+    clearInterval(intervalIDOnline);
+    clearInterval(intervalIDFriends);
     console.log("Disconnected");
     alertify.success('Successfully disconnected.', 2);
     $("#onlineTable").html("");
+    $("#friendsTable").html("");
 }
 
 function sendName() {
@@ -339,6 +352,24 @@ function showOnlinePlayers(message) {
             "<td class='user-tab'>" + message[i].username + "</td>" +
             "<td class='button-play-tab'><button " + ($("#btn-play-hide").prop('disabled') === true ? 'disabled' : (inGame === true ? 'disabled' : 'enabled')) + " class='btn btn-primary btn-play' onclick=\"inviteToGame('" + message[i].username + "')\">Play</button></td>" +
             "<td class='button-add-friend-tab'><button " + ($("#btn-add-friend-hide").prop('disabled') === true ? 'disabled' : (inFriendList === true ? 'disabled' : 'enabled')) + " class='btn btn-primary btn-add-friend' onclick=\"addFriend('" + message[i].username + "')\">Add friend</button></td>" +
+            "</tr>");
+    }
+}
+
+function showFriends(message) {
+    let friendsTable = $("#friendsTable");
+
+    friendsTable.html("<tr><th class=\"status-tab\"></th><th class=\"user-tab\">User</th></tr>");
+
+    for (let i = 0; i < message.length; i++) {
+
+        let username = message[i].username;
+        let status = message[i].status;
+
+        friendsTable.append(
+            "<tr>" +
+            "<td class='status-tab'><span title=" + (status === 0 ? ('Offline') : (status === 1 ? ('Online') : ('Playing'))) + " class=\"indicator " + (status === 0 ? 'offline' : (status === 1 ? 'online' : 'in-game')) + " \"/></td>" +
+            "<td class='user-tab'>" + username + "</td>" +
             "</tr>");
     }
 }

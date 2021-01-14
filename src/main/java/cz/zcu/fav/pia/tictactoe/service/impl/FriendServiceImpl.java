@@ -33,14 +33,16 @@ public class FriendServiceImpl implements FriendService {
 
     private final LoggedUserService loggedUserService;
 
+
     public List<UserDomain> getFriendsList() {
-        return getFriends(loggedUserService.getUser());
+        return getFriends(loggedUserService.getUser().getUsername());
     }
 
-    private List<UserDomain> getFriends(UserDomain user) {
+    @Override
+    public List<UserDomain> getFriends(String user) {
         List<UserDomain> userDomainList = new ArrayList<>();
 
-        for (FriendEntity friendEntity : friendEntityRepository.findAllByUser1Username(user.getUsername())) {
+        for (FriendEntity friendEntity : friendEntityRepository.findAllByUser1Username(user)) {
             UserEntity userEntity = friendEntity.getUser2();
 
             Set<GrantedAuthority> authorities = new HashSet<>();
@@ -85,8 +87,8 @@ public class FriendServiceImpl implements FriendService {
     @Transactional
     @Override
     public void addFriend(UserDomain loggedUser, UserDomain friend) {
-        List<UserDomain> friendList1 = getFriends(loggedUser);
-        List<UserDomain> friendList2 = getFriends(friend);
+        List<UserDomain> friendList1 = getFriends(loggedUser.getUsername());
+        List<UserDomain> friendList2 = getFriends(friend.getUsername());
 
         if (loggedUser.equals(friend)) {
             log.error("It is not possible to be friend with your own.");
@@ -116,7 +118,7 @@ public class FriendServiceImpl implements FriendService {
 
     @Transactional
     public void removeFriend(UserDomain loggedUser, UserDomain friend) {
-        List<UserDomain> friendList1 = getFriends(loggedUser);
+        List<UserDomain> friendList1 = getFriends(loggedUser.getUsername());
 
         if (!friendList1.contains(friend)) {
             log.error("Required user is not in friend list.");

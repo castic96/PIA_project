@@ -1,5 +1,7 @@
 package cz.zcu.fav.pia.tictactoe.service.impl;
 
+import cz.zcu.fav.pia.tictactoe.domain.UserDomain;
+import cz.zcu.fav.pia.tictactoe.dto.FriendDTO;
 import cz.zcu.fav.pia.tictactoe.dto.OnlinePlayerDTO;
 import cz.zcu.fav.pia.tictactoe.service.FriendService;
 import cz.zcu.fav.pia.tictactoe.service.GameService;
@@ -47,6 +49,39 @@ public class OnlinePlayersServiceImpl implements OnlinePlayersService {
 
         return onlinePlayers;
     }
+
+    @Override
+    public List<FriendDTO> getFriendsWithStatus(String loggedUser) {
+        List<FriendDTO> friendsWithStatus = new ArrayList<>();
+        int status = 0;
+
+        List<OnlinePlayerDTO> onlinePlayers = getOnlinePlayers(loggedUser);
+
+        for (UserDomain friend : friendService.getFriends(loggedUser)) {
+            status = 0;
+
+            for (OnlinePlayerDTO onlinePlayer : onlinePlayers) {
+                if (onlinePlayer.getUsername().equals(friend.getUsername())) {
+
+                    if (onlinePlayer.isInGame()) {
+                        status = 2;
+                    }
+                    else {
+                        status = 1;
+                    }
+
+                    break;
+
+                }
+            }
+
+            friendsWithStatus.add(new FriendDTO(friend.getUsername(), status));
+
+        }
+
+        return friendsWithStatus;
+    }
+
 
     @Override
     public List<String> findDisconnectedUsers(String loggedUser) {
