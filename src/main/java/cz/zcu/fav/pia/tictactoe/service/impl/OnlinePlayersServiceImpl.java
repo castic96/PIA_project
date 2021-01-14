@@ -50,4 +50,32 @@ public class OnlinePlayersServiceImpl implements OnlinePlayersService {
         return onlinePlayers;
     }
 
+    public List<String> findDisconnectedUsers() {
+        List<String> disconnectedUsers = new ArrayList<>();
+        boolean online;
+
+        List<String> playersInGame = gameService.playersInGame();
+        List<OnlinePlayerDTO> onlineUsers = getOnlinePlayers();
+
+        for (String player : playersInGame) {
+            online = false;
+
+            for (OnlinePlayerDTO onlineUser : onlineUsers) {
+
+                if (player.equals(onlineUser.getUsername())) {
+                    online = true;
+                    break;
+                }
+
+            }
+
+            if (!online) {
+                disconnectedUsers.add(player);
+            }
+
+        }
+
+        return disconnectedUsers;
+    }
+
 }

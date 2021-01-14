@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface OnlinePlayersService {
     List<OnlinePlayerDTO> getOnlinePlayers();
+
+    List<String> findDisconnectedUsers();
 }

@@ -18,4 +18,6 @@ public interface GameService {
 
     GameDomain giveUp(String username);
 
+    GameDomain loadGameByUser(String username);
+
 }

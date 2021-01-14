@@ -7,13 +7,11 @@ import cz.zcu.fav.pia.tictactoe.repository.UserEntityRepository;
 import cz.zcu.fav.pia.tictactoe.service.ResultService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 @Service("resultService")
 @RequiredArgsConstructor
 @Slf4j
-@PreAuthorize("isAuthenticated()")
 public class ResultServiceImpl implements ResultService {
 
     private final UserEntityRepository userEntityRepository;

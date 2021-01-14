@@ -63,6 +63,11 @@ public class GameServiceImpl implements GameService {
         gameDomainRepository.removeGame(game);
     }
 
+    @Override
+    public GameDomain loadGameByUser(String username) {
+        return gameDomainRepository.loadGameByUser(username);
+    }
+
     public List<String> playersInGame() {
         List<String> playersInGame = new ArrayList<>();
 
@@ -83,6 +88,10 @@ public class GameServiceImpl implements GameService {
 
     public GameDomain giveUp(String username) {
         GameDomain game = gameDomainRepository.loadGameByUser(username);
+
+        if (game == null) {
+            return null;
+        }
 
         if (game.getUsername1().equals(username)) {
             game.setWinner(game.getUsername2());

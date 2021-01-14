@@ -53,7 +53,17 @@ function connect(csrf) {
         stompClient.subscribe('/user/game/lose-give-up', function (message) {
             gameLoseGiveUp(JSON.parse(message.body));
         });
+        stompClient.subscribe('/user/game/win-disconn', function (message) {
+            gameWinDisconn(JSON.parse(message.body));
+        });
     });
+}
+
+function gameWinDisconn(message) {
+    $("#gameLabel").html("You win by default!");
+    alertify.success("Opponent disconnected.", 3);
+
+    gameEnd(message);
 }
 
 function gameWinGiveUp(message) {
@@ -215,7 +225,24 @@ function disconnectVerify() {
 }
 
 function disconnect() {
+    let gameBoard = $("#gameBoard");
+
     $("#gameLabel").html("Connect to game...");
+
+    if (gameBoard.hasClass("enabled")) {
+        gameBoard.removeClass("enabled");
+    }
+
+    if (gameBoard.hasClass("disabled-in-game")) {
+        gameBoard.removeClass("disabled-in-game");
+    }
+
+    if (!gameBoard.hasClass("disabled")) {
+        gameBoard.addClass("disabled");
+    }
+
+    $("#btn-play-hide").attr('disabled', false);
+    $("#give-up-btn").attr('disabled', true);
 
     if (stompClient !== null) {
         stompClient.disconnect();
