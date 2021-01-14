@@ -208,11 +208,15 @@ function gameState(message) {
 }
 
 function friendAccepted(message) {
+    $("#btn-add-friend-hide").attr('disabled', true);
+
     alertify.success('User ' + message.username + ' added to you friend list!', 3);
 
 }
 
 function friendDeclined(message) {
+    $("#btn-add-friend-hide").attr('disabled', false);
+
     alertify.warning('User ' + message.username + ' declined friend invitation.', 3);
 }
 
@@ -334,12 +338,15 @@ function showOnlinePlayers(message) {
             "<tr><td class='status-tab'><span title=" + (inGame === true ? ('Playing') : ('Online')) + " class=\"indicator " + (inGame === true ? 'in-game' : 'online') + " \"/></td>" +
             "<td class='user-tab'>" + message[i].username + "</td>" +
             "<td class='button-play-tab'><button " + ($("#btn-play-hide").prop('disabled') === true ? 'disabled' : (inGame === true ? 'disabled' : 'enabled')) + " class='btn btn-primary btn-play' onclick=\"inviteToGame('" + message[i].username + "')\">Play</button></td>" +
-            "<td class='button-add-friend-tab'><button " + (inFriendList === true ? 'disabled' : 'enabled') + " class='btn btn-primary btn-add-friend' onclick=\"addFriend('" + message[i].username + "')\">Add friend</button></td>" +
+            "<td class='button-add-friend-tab'><button " + ($("#btn-add-friend-hide").prop('disabled') === true ? 'disabled' : (inFriendList === true ? 'disabled' : 'enabled')) + " class='btn btn-primary btn-add-friend' onclick=\"addFriend('" + message[i].username + "')\">Add friend</button></td>" +
             "</tr>");
     }
 }
 
 function addFriend(username) {
+    $("#btn-add-friend-hide").attr('disabled', true);
+    $(".btn-add-friend").attr('disabled', true);
+
     let value = {'username': username};
     stompClient.send("/app/friend/add", {}, JSON.stringify(value));
 }

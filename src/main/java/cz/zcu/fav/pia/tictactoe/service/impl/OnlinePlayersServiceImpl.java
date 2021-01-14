@@ -21,6 +21,7 @@ public class OnlinePlayersServiceImpl implements OnlinePlayersService {
     private final GameService gameService;
     private final FriendService friendService;
 
+    @Override
     public List<OnlinePlayerDTO> getOnlinePlayers(String loggedUser) {
         List<OnlinePlayerDTO> onlinePlayers = new ArrayList<>();
         List<String> onlinePlayersStr;
@@ -39,14 +40,15 @@ public class OnlinePlayersServiceImpl implements OnlinePlayersService {
             }
 
             inGame = playersInGame.contains(onlinePlayerStr);
-            //inFriendList = loggedUserService.getUser() != null;
+            inFriendList = friendService.areFriends(loggedUser, onlinePlayerStr);
 
-            onlinePlayers.add(new OnlinePlayerDTO(onlinePlayerStr, inGame, true));
+            onlinePlayers.add(new OnlinePlayerDTO(onlinePlayerStr, inGame, inFriendList));
         }
 
         return onlinePlayers;
     }
 
+    @Override
     public List<String> findDisconnectedUsers(String loggedUser) {
         List<String> disconnectedUsers = new ArrayList<>();
         boolean online;

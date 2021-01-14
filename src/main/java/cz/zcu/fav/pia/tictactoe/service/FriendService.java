@@ -9,4 +9,6 @@ public interface FriendService {
     void addFriend(UserDomain friend);
 
     void removeFriend(UserDomain friend);
+
+    boolean areFriends(String username1, String username2);
 }

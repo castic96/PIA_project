@@ -63,11 +63,27 @@ public class FriendServiceImpl implements FriendService {
         return Collections.unmodifiableList(userDomainList);
     }
 
+    @Override
+    public boolean areFriends(String username1, String username2) {
+        for (FriendEntity friendEntity : friendEntityRepository.findAllByUser1Username(username1)) {
+            UserEntity userEntity = friendEntity.getUser2();
+
+            if (userEntity.getUsername().equals(username2)) {
+                return true;
+            }
+
+        }
+
+        return false;
+    }
+
+    @Override
     public void addFriend(UserDomain friend) {
         addFriend(loggedUserService.getUser(), friend);
     }
 
     @Transactional
+    @Override
     public void addFriend(UserDomain loggedUser, UserDomain friend) {
         List<UserDomain> friendList1 = getFriends(loggedUser);
         List<UserDomain> friendList2 = getFriends(friend);
@@ -93,6 +109,7 @@ public class FriendServiceImpl implements FriendService {
         friendEntityRepository.save(friendEntity2);
     }
 
+    @Override
     public void removeFriend(UserDomain friend) {
         removeFriend(loggedUserService.getUser(), friend);
     }
