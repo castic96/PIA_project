@@ -102,6 +102,10 @@ table#gameBoard.disabled td:hover {
     line-height: 12px;
 }
 
+.btn-remove-friend {
+    line-height: 12px;
+}
+
 #gameLabel {
     font-size: 16pt;
 }

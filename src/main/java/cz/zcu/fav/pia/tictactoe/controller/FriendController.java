@@ -34,6 +34,15 @@ public class FriendController {
                 "/friend/ask", new UserDTO(loggedUserService.getUser().getUsername()));
     }
 
+    @MessageMapping("/friend/remove")
+    public void removeFriend(UserDTO message) {
+
+        friendService.removeFriend((UserDomain) userDetailsService.loadUserByUsername(message.getUsername()));
+
+        simpMessagingTemplate.convertAndSendToUser(message.getUsername(),
+                "/friend/removed", new UserDTO(loggedUserService.getUser().getUsername()));
+    }
+
     @MessageMapping("/friend/acceptation")
     public void acceptFriend(AcceptationDTO message) {
         boolean accepted = message.isAccepted();

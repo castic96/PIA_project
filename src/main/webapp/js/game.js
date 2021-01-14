@@ -70,6 +70,9 @@ function connect(csrf) {
         stompClient.subscribe('/user/friend/decline', function (message) {
             friendDeclined(JSON.parse(message.body));
         });
+        stompClient.subscribe('/user/friend/removed', function (message) {
+            friendRemoved(JSON.parse(message.body));
+        });
     });
 
     intervalIDOnline = setInterval(onlinePlayersRequest, 1000);
@@ -218,10 +221,15 @@ function gameState(message) {
 
 }
 
-function friendAccepted(message) {
-    $("#btn-add-friend-hide").attr('disabled', true);
+function friendRemoved(message) {
+    alertify.warning('User ' + message.username + ' removed you from friend list!', 3);
+}
 
-    alertify.success('User ' + message.username + ' added to you friend list!', 3);
+
+function friendAccepted(message) {
+    $("#btn-add-friend-hide").attr('disabled', false);
+
+    alertify.success('User ' + message.username + ' accepted you as friend!', 3);
 
 }
 
@@ -340,7 +348,9 @@ function inviteToGame(username) {
 
 function showOnlinePlayers(message) {
     let onlineTable = $("#onlineTable");
-    onlineTable.html("<tr><th class=\"status-tab\"></th><th class=\"user-tab\">User</th></tr>");
+
+    onlineTable.html("");
+
     for (let i = 0; i < message.length; i++) {
         if (message[i].username.localeCompare($("#loggedUser").html()) === 0) continue;
 
@@ -359,7 +369,7 @@ function showOnlinePlayers(message) {
 function showFriends(message) {
     let friendsTable = $("#friendsTable");
 
-    friendsTable.html("<tr><th class=\"status-tab\"></th><th class=\"user-tab\">User</th></tr>");
+    friendsTable.html("");
 
     for (let i = 0; i < message.length; i++) {
 
@@ -370,8 +380,18 @@ function showFriends(message) {
             "<tr>" +
             "<td class='status-tab'><span title=" + (status === 0 ? ('Offline') : (status === 1 ? ('Online') : ('Playing'))) + " class=\"indicator " + (status === 0 ? 'offline' : (status === 1 ? 'online' : 'in-game')) + " \"/></td>" +
             "<td class='user-tab'>" + username + "</td>" +
+            "<td class='button-remove-friend-tab'><button class='btn btn-primary btn-remove-friend' onclick=\"removeFriend('" + message[i].username + "')\">Remove</button></td>" +
             "</tr>");
     }
+}
+
+function removeFriend(username) {
+    $(".btn-remove-friend").attr('disabled', true);
+
+    let value = {'username': username};
+    stompClient.send("/app/friend/remove", {}, JSON.stringify(value));
+
+    alertify.success("User " + username + " has been removed from friend list.", 3);
 }
 
 function addFriend(username) {
