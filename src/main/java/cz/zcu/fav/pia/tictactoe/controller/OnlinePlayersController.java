@@ -1,30 +1,38 @@
-package cz.zcu.fav.pia.tictactoe.component;
+package cz.zcu.fav.pia.tictactoe.controller;
 
 import cz.zcu.fav.pia.tictactoe.domain.GameDomain;
+import cz.zcu.fav.pia.tictactoe.dto.OnlinePlayerDTO;
 import cz.zcu.fav.pia.tictactoe.service.GameService;
+import cz.zcu.fav.pia.tictactoe.service.LoggedUserService;
 import cz.zcu.fav.pia.tictactoe.service.OnlinePlayersService;
 import cz.zcu.fav.pia.tictactoe.service.ResultService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
-@Component
+@Controller
 @RequiredArgsConstructor
-public class OnlinePlayersComponent {
+@Slf4j
+public class OnlinePlayersController {
 
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final GameService gameService;
     private final OnlinePlayersService onlinePlayersService;
     private final ResultService resultService;
+    private final LoggedUserService loggedUserService;
 
-    @Scheduled(fixedRate = 1000)
+    @MessageMapping("/client/online-players")
     public void onlinePlayers() {
-        simpMessagingTemplate.convertAndSend("/client/online-players", onlinePlayersService.getOnlinePlayers());
+        String loggedUser = loggedUserService.getUser().getUsername();
+        List<OnlinePlayerDTO> onlinePlayers = onlinePlayersService.getOnlinePlayers(loggedUser);
 
-        List<String> disconnectedPlayers = onlinePlayersService.findDisconnectedUsers();
+        simpMessagingTemplate.convertAndSendToUser(loggedUserService.getUser().getUsername(), "/client/online-players", onlinePlayers);
+
+        List<String> disconnectedPlayers = onlinePlayersService.findDisconnectedUsers(loggedUser);
 
         if (!disconnectedPlayers.isEmpty()) {
             endDisconnectedGames(disconnectedPlayers);

@@ -15,7 +15,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.annotation.RequestScope;
 
 import javax.transaction.Transactional;
 import java.util.*;
@@ -25,7 +24,6 @@ import java.util.*;
 @RequiredArgsConstructor
 @Slf4j
 @PreAuthorize("isAuthenticated()")
-@RequestScope
 public class FriendServiceImpl implements FriendService {
 
     private final UserEntityRepository userEntityRepository;
@@ -36,12 +34,7 @@ public class FriendServiceImpl implements FriendService {
     private final LoggedUserService loggedUserService;
 
     public List<UserDomain> getFriendsList() {
-        //TODO: možná disable cache
-        if (this.friendsList == null) {
-            this.friendsList = getFriends(loggedUserService.getUser());
-        }
-
-        return friendsList;
+        return getFriends(loggedUserService.getUser());
     }
 
     private List<UserDomain> getFriends(UserDomain user) {

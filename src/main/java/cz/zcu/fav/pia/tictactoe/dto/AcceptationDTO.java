@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GameAcceptationDTO {
+public class AcceptationDTO {
 
     String username;
     boolean accepted;

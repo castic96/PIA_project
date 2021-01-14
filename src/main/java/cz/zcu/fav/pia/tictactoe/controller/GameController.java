@@ -1,12 +1,11 @@
 package cz.zcu.fav.pia.tictactoe.controller;
 
 import cz.zcu.fav.pia.tictactoe.domain.GameDomain;
-import cz.zcu.fav.pia.tictactoe.dto.GameAcceptationDTO;
+import cz.zcu.fav.pia.tictactoe.dto.AcceptationDTO;
 import cz.zcu.fav.pia.tictactoe.dto.MoveDTO;
 import cz.zcu.fav.pia.tictactoe.dto.UserDTO;
 import cz.zcu.fav.pia.tictactoe.service.GameService;
 import cz.zcu.fav.pia.tictactoe.service.LoggedUserService;
-import cz.zcu.fav.pia.tictactoe.service.OnlinePlayersService;
 import cz.zcu.fav.pia.tictactoe.service.ResultService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +32,7 @@ public class GameController {
     }
 
     @MessageMapping("/game/acceptation")
-    public void gameAcceptation(GameAcceptationDTO message) {
+    public void gameAcceptation(AcceptationDTO message) {
         String destination = message.isAccepted() ? "/game/accept" : "/game/decline";
 
         simpMessagingTemplate.convertAndSendToUser(message.getUsername(),

@@ -9,5 +9,6 @@ public class OnlinePlayerDTO {
 
     private String username;
     private boolean inGame;
+    private boolean inFriendList;
 
 }

@@ -5,7 +5,7 @@ import cz.zcu.fav.pia.tictactoe.dto.OnlinePlayerDTO;
 import java.util.List;
 
 public interface OnlinePlayersService {
-    List<OnlinePlayerDTO> getOnlinePlayers();
+    List<OnlinePlayerDTO> getOnlinePlayers(String loggedUser);
 
-    List<String> findDisconnectedUsers();
+    List<String> findDisconnectedUsers(String loggedUser);
 }

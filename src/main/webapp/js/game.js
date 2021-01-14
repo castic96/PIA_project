@@ -1,4 +1,5 @@
-var stompClient = null;
+let stompClient = null;
+let intervalID;
 
 function setConnected(connected) {
     $("#connect").prop("disabled", connected);
@@ -23,7 +24,7 @@ function connect(csrf) {
         stompClient.subscribe('/client/greetings', function (greeting) {
             showGreeting(JSON.parse(greeting.body).content);
         });
-        stompClient.subscribe('/client/online-players', function (players) {
+        stompClient.subscribe('/user/client/online-players', function (players) {
             showOnlinePlayers(JSON.parse(players.body));
         });
         stompClient.subscribe('/user/game/invite', function (message) {
@@ -56,7 +57,46 @@ function connect(csrf) {
         stompClient.subscribe('/user/game/win-disconn', function (message) {
             gameWinDisconn(JSON.parse(message.body));
         });
+        stompClient.subscribe('/user/friend/ask', function (message) {
+            confirmAskToFriends(JSON.parse(message.body));
+        });
+        stompClient.subscribe('/user/friend/accept', function (message) {
+            friendAccepted(JSON.parse(message.body));
+        });
+        stompClient.subscribe('/user/friend/decline', function (message) {
+            friendDeclined(JSON.parse(message.body));
+        });
     });
+
+    intervalID = setInterval(onlinePlayersRequest, 1000);
+}
+
+function onlinePlayersRequest() {
+    if (stompClient !== null) {
+        stompClient.send("/app/client/online-players", {}, {});
+    }
+}
+
+function confirmAskToFriends(message) {
+    let username = message.username;
+
+    alertify.confirm("User " + username + " wants to add you to friend list!",
+        function(){
+            friendAcceptation(username,true);
+            alertify.success('User ' + username + ' added to your friend list!', 3);
+        },
+        function(){
+            friendAcceptation(username,false);
+        }).set({title:"Ask to add friend"}).set({'labels': {ok:'Accept', cancel:'Decline'}}).autoCancel(10);
+}
+
+function friendAcceptation(username, accepted) {
+    let value = {
+        'username': username,
+        'accepted': accepted
+    };
+
+    stompClient.send("/app/friend/acceptation", {}, JSON.stringify(value));
 }
 
 function gameWinDisconn(message) {
@@ -104,7 +144,9 @@ function gameEnd(message) {
 }
 
 function gameMove(id) {
-    if (!$("table#gameBoard").hasClass("enabled")) {
+    let gameBoard = $("table#gameBoard");
+
+    if (!gameBoard.hasClass("enabled")) {
         return;
     }
 
@@ -163,6 +205,15 @@ function gameState(message) {
         }
     }
 
+}
+
+function friendAccepted(message) {
+    alertify.success('User ' + message.username + ' added to you friend list!', 3);
+
+}
+
+function friendDeclined(message) {
+    alertify.warning('User ' + message.username + ' declined friend invitation.', 3);
 }
 
 function gameAccepted(message) {
@@ -248,6 +299,7 @@ function disconnect() {
         stompClient.disconnect();
     }
     setConnected(false);
+    clearInterval(intervalID);
     console.log("Disconnected");
     alertify.success('Successfully disconnected.', 2);
     $("#onlineTable").html("");
@@ -276,12 +328,20 @@ function showOnlinePlayers(message) {
         if (message[i].username.localeCompare($("#loggedUser").html()) === 0) continue;
 
         let inGame = message[i].inGame;
+        let inFriendList = message[i].inFriendList;
+
         onlineTable.append(
             "<tr><td class='status-tab'><span title=" + (inGame === true ? ('Playing') : ('Online')) + " class=\"indicator " + (inGame === true ? 'in-game' : 'online') + " \"/></td>" +
             "<td class='user-tab'>" + message[i].username + "</td>" +
             "<td class='button-play-tab'><button " + ($("#btn-play-hide").prop('disabled') === true ? 'disabled' : (inGame === true ? 'disabled' : 'enabled')) + " class='btn btn-primary btn-play' onclick=\"inviteToGame('" + message[i].username + "')\">Play</button></td>" +
+            "<td class='button-add-friend-tab'><button " + (inFriendList === true ? 'disabled' : 'enabled') + " class='btn btn-primary btn-add-friend' onclick=\"addFriend('" + message[i].username + "')\">Add friend</button></td>" +
             "</tr>");
     }
+}
+
+function addFriend(username) {
+    let value = {'username': username};
+    stompClient.send("/app/friend/add", {}, JSON.stringify(value));
 }
 
 function giveUp() {

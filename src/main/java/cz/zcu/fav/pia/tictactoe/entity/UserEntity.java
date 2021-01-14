@@ -46,7 +46,7 @@ public class UserEntity extends AbstractEntity {
     @Column(nullable = false)
     private boolean isDeleted = false;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role_tab",
             joinColumns = @JoinColumn(name = "user_tab_id", referencedColumnName = "id"),
