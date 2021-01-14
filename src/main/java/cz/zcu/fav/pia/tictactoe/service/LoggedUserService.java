@@ -1,4 +1,4 @@
-package cz.zcu.fav.pia.tictactoe.util;
+package cz.zcu.fav.pia.tictactoe.service;
 
 import cz.zcu.fav.pia.tictactoe.domain.UserDomain;
 

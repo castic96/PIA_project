@@ -1,6 +1,6 @@
 package cz.zcu.fav.pia.tictactoe.component;
 
-import cz.zcu.fav.pia.tictactoe.util.OnlinePlayersService;
+import cz.zcu.fav.pia.tictactoe.service.OnlinePlayersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;

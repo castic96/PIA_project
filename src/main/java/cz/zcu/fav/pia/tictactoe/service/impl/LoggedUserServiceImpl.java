@@ -1,6 +1,7 @@
-package cz.zcu.fav.pia.tictactoe.util;
+package cz.zcu.fav.pia.tictactoe.service.impl;
 
 import cz.zcu.fav.pia.tictactoe.domain.UserDomain;
+import cz.zcu.fav.pia.tictactoe.service.LoggedUserService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 

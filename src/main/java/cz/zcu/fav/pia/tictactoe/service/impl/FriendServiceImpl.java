@@ -7,7 +7,7 @@ import cz.zcu.fav.pia.tictactoe.entity.UserEntity;
 import cz.zcu.fav.pia.tictactoe.repository.FriendEntityRepository;
 import cz.zcu.fav.pia.tictactoe.repository.UserEntityRepository;
 import cz.zcu.fav.pia.tictactoe.service.FriendService;
-import cz.zcu.fav.pia.tictactoe.util.LoggedUserService;
+import cz.zcu.fav.pia.tictactoe.service.LoggedUserService;
 import cz.zcu.fav.pia.tictactoe.util.Utils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

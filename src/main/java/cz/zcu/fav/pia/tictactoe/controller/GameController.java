@@ -6,7 +6,7 @@ import cz.zcu.fav.pia.tictactoe.dto.MoveDTO;
 import cz.zcu.fav.pia.tictactoe.dto.UserDTO;
 import cz.zcu.fav.pia.tictactoe.service.GameService;
 import cz.zcu.fav.pia.tictactoe.service.ResultService;
-import cz.zcu.fav.pia.tictactoe.util.LoggedUserService;
+import cz.zcu.fav.pia.tictactoe.service.LoggedUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;

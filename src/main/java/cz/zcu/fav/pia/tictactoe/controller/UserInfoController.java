@@ -2,7 +2,7 @@ package cz.zcu.fav.pia.tictactoe.controller;
 
 import cz.zcu.fav.pia.tictactoe.dto.UserInfoDTO;
 import cz.zcu.fav.pia.tictactoe.service.UserService;
-import cz.zcu.fav.pia.tictactoe.util.LoggedUserService;
+import cz.zcu.fav.pia.tictactoe.service.LoggedUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PutMapping;

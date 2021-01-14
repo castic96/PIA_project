@@ -4,7 +4,7 @@ import cz.zcu.fav.pia.tictactoe.domain.ResultDomain;
 import cz.zcu.fav.pia.tictactoe.entity.ResultEntity;
 import cz.zcu.fav.pia.tictactoe.repository.ResultEntityRepository;
 import cz.zcu.fav.pia.tictactoe.service.StatisticsService;
-import cz.zcu.fav.pia.tictactoe.util.LoggedUserService;
+import cz.zcu.fav.pia.tictactoe.service.LoggedUserService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
