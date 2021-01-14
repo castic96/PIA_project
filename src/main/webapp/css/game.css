@@ -36,6 +36,21 @@ table#gameBoard.disabled td:hover {
     cursor: default;
 }
 
+label#opponent-label.enabled {
+    display: initial;
+    color: #2f2f2f;
+}
+
+label#opponent-label.disabled {
+    display: none;
+    color: #b4b4b4;
+}
+
+.opp-row {
+    min-height: 30px;
+    max-height: 30px;
+}
+
 .connect-btn {
     margin-right: 12px;
     width: 120px;

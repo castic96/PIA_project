@@ -154,6 +154,9 @@ function gameEnd(message) {
     $("#btn-play-hide").attr('disabled', false);
     $("#give-up-btn").attr('disabled', true);
 
+    $("#opponent-label").removeClass("enabled");
+    $("#opponent-label").addClass("disabled");
+
     gameState(message);
 }
 
@@ -240,8 +243,15 @@ function friendDeclined(message) {
 }
 
 function gameAccepted(message) {
+    let opponentLabel = $("#opponent-label");
+
     $("#gameBoard").attr('hidden', false);
     $("#give-up-btn").attr('disabled', false);
+
+    opponentLabel.removeClass("disabled");
+    opponentLabel.addClass("enabled");
+    opponentLabel.html("Opponent: " + message.username);
+
     alertify.success('User ' + message.username + ' accepted game invitation.', 3);
     alertify.success('New game started!', 3);
 
@@ -267,11 +277,17 @@ function confirmInvitation(message) {
 
     alertify.confirm("User " + username + " wants to play with you!",
         function(){
+            let opponentLabel = $("#opponent-label");
             $("#gameBoard").attr('hidden', false);
             $("#btn-play-hide").attr('disabled', true);
             gameAcceptation(username,true);
             createGame(username);
             $("#give-up-btn").attr('disabled', false);
+
+            opponentLabel.removeClass("disabled");
+            opponentLabel.addClass("enabled");
+            opponentLabel.html("Opponent: " + username);
+
             alertify.success('New game started!', 3);
         },
         function(){
@@ -317,6 +333,9 @@ function disconnect() {
 
     $("#btn-play-hide").attr('disabled', false);
     $("#give-up-btn").attr('disabled', true);
+
+    $("#opponent-label").removeClass("enabled");
+    $("#opponent-label").addClass("disabled");
 
     if (stompClient !== null) {
         stompClient.disconnect();
@@ -380,6 +399,7 @@ function showFriends(message) {
             "<tr>" +
             "<td class='status-tab'><span title=" + (status === 0 ? ('Offline') : (status === 1 ? ('Online') : ('Playing'))) + " class=\"indicator " + (status === 0 ? 'offline' : (status === 1 ? 'online' : 'in-game')) + " \"/></td>" +
             "<td class='user-tab'>" + username + "</td>" +
+            "<td class='button-play-tab'><button " + ($("#btn-play-hide").prop('disabled') === true ? 'disabled' : (status === 1 ? 'enabled' : 'disabled')) + " class='btn btn-primary btn-play' onclick=\"inviteToGame('" + message[i].username + "')\">Play</button></td>" +
             "<td class='button-remove-friend-tab'><button class='btn btn-primary btn-remove-friend' onclick=\"removeFriend('" + message[i].username + "')\">Remove</button></td>" +
             "</tr>");
     }
