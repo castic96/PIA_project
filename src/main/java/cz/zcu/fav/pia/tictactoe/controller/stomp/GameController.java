@@ -8,13 +8,11 @@ import cz.zcu.fav.pia.tictactoe.service.GameService;
 import cz.zcu.fav.pia.tictactoe.service.LoggedUserService;
 import cz.zcu.fav.pia.tictactoe.service.ResultService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 @Controller
-@Slf4j
 @RequiredArgsConstructor
 public class GameController {
 
@@ -25,7 +23,6 @@ public class GameController {
 
     @MessageMapping("/game/invite")
     public void invitePlayer(UserDTO message) {
-        log.info(message.getUsername());
 
         if (gameService.playersInGame().contains(message.getUsername())) {
             return;
@@ -45,8 +42,6 @@ public class GameController {
 
     @MessageMapping("/game/create")
     public void createGame(UserDTO message) {
-        log.info("create request...");
-        log.info(message.getUsername());
 
         GameDomain newGame = gameService.createGame(loggedUserService.getUser().getUsername(), message.getUsername());
         gameService.addGame(newGame);

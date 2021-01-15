@@ -17,7 +17,6 @@ import org.springframework.stereotype.Controller;
 import java.util.List;
 
 @Controller
-@Slf4j
 @RequiredArgsConstructor
 public class FriendController {
 

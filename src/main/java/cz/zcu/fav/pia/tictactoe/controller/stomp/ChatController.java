@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 @RequiredArgsConstructor
-@Slf4j
 public class ChatController {
 
     private final LoggedUserService loggedUserService;

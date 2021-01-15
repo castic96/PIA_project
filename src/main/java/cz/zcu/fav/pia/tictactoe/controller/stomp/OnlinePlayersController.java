@@ -16,7 +16,6 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@Slf4j
 public class OnlinePlayersController {
 
     private final SimpMessagingTemplate simpMessagingTemplate;
