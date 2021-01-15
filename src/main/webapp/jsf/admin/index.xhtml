@@ -3,6 +3,7 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:sec="https://joinfaces.org/security"
+	xmlns:p="http://primefaces.org/ui"
 	
 	template="/WEB-INF/jsf/base.xhtml"
 	lang="cs">
@@ -19,23 +20,24 @@
 	<ui:define name="body">
 		<sec:authorize access="hasRole('ADMIN')">
 			<h1>Administration</h1>
-			
-			<h:dataTable
+
+			<p:dataTable
 				value="#{adminService.userDomainList}"
 				var="user"
-				styleClass="table"
+				styleClass="borderless"
 				headerClass="align-middle"
 				id="usersTable"
+				reflow="true"
 				>
-				<h:column>
+				<p:column headerText="Email">
 					<f:facet name="header">Email</f:facet>
 					#{user.username}
-				</h:column>
-				<h:column>
+				</p:column>
+				<p:column>
 					<f:facet name="header">Roles</f:facet>
 					#{user.authorities}
-				</h:column>
-				<h:column>
+				</p:column>
+				<p:column>
 					<f:facet name="header">
 						<h:form id="createUserForm">
 							<h:commandLink
@@ -64,8 +66,8 @@
 							<f:ajax execute="@form" render="usersTable" />
 						</h:commandLink>
 					</h:form>
-				</h:column>
-			</h:dataTable>
+				</p:column>
+			</p:dataTable>
 			<h:panelGroup id="userDetailView">
 				<div id="userDetailModal" class="modal">
 					<div class="modal-dialog modal-dialog-centered">
