@@ -28,11 +28,11 @@ public class UserInfoController implements UserApi {
         loggedUserService.getUser().setFirstName(newUserInfoDomain.getFirstName());
         loggedUserService.getUser().setLastName(newUserInfoDomain.getLastName());
 
-        UserInfoDTO userInfoDTO1 = new UserInfoDTO();
-        userInfoDTO1.setFirstName(newUserInfoDomain.getFirstName());
-        userInfoDTO1.setLastName(newUserInfoDomain.getLastName());
+        UserInfoDTO userInfoDTOResponse = new UserInfoDTO()
+                        .firstName(newUserInfoDomain.getFirstName())
+                        .lastName(newUserInfoDomain.getLastName());
 
-        return new ResponseEntity<>(userInfoDTO1, HttpStatus.OK);
+        return new ResponseEntity<>(userInfoDTOResponse, HttpStatus.OK);
     }
 
 }
