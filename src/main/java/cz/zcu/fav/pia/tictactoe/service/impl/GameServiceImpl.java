@@ -68,6 +68,7 @@ public class GameServiceImpl implements GameService {
         return gameDomainRepository.loadGameByUser(username);
     }
 
+    @Override
     public List<String> playersInGame() {
         List<String> playersInGame = new ArrayList<>();
 

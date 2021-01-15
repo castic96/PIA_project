@@ -26,7 +26,11 @@ public class GameController {
     @MessageMapping("/game/invite")
     public void invitePlayer(UserDTO message) {
         log.info(message.getUsername());
-        //TODO: kontrolovat, zda hrac uz nehraje
+
+        if (gameService.playersInGame().contains(message.getUsername())) {
+            return;
+        }
+
         simpMessagingTemplate.convertAndSendToUser(message.getUsername(),
                 "/game/invite", new UserDTO(loggedUserService.getUser().getUsername()));
     }
