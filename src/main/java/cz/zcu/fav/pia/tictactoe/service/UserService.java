@@ -1,11 +1,11 @@
 package cz.zcu.fav.pia.tictactoe.service;
 
-import cz.zcu.fav.pia.tictactoe.dto.UserInfoDTO;
+import cz.zcu.fav.pia.tictactoe.domain.UserInfoDomain;
 
 public interface UserService {
 
     boolean addUser(String username, String password, String firstName, String lastName, String... roles);
 
-    UserInfoDTO updateUser(String username, UserInfoDTO userInfoDTO);
+    UserInfoDomain updateUser(String username, UserInfoDomain userInfoDomain);
 
 }

@@ -167,6 +167,18 @@
             <artifactId>postgresql</artifactId>
         </dependency>
 
+        <!-- OpenAPI/Swagger -->
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>0.2.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -203,6 +215,67 @@
             <plugin>
                 <groupId>org.joinfaces</groupId>
                 <artifactId>joinfaces-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>4.3.1</version>
+                <executions>
+                    <execution>
+                        <id>generate-java-api</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <inputSpec>openapi/tictactoe-openapi.yaml</inputSpec>
+                            <generatorName>spring</generatorName>
+                            <configOptions>
+                                <apiPackage>cz.zcu.fav.pia.tictactoe.controller.generated</apiPackage>
+                                <booleanGetterPrefix>is</booleanGetterPrefix>
+                                <dateLibrary>java8</dateLibrary>
+                                <interfaceOnly>true</interfaceOnly>
+                                <hideGenerationTimestamp>true</hideGenerationTimestamp>
+                                <java8>true</java8>
+                                <modelPackage>
+                                    cz.zcu.fav.pia.tictactoe.dto.generated
+                                </modelPackage>
+                                <sourceFolder>/</sourceFolder>
+                                <useTags>true</useTags>
+                                <validateSpec>true</validateSpec>
+                                <strictSpec>true</strictSpec>
+                            </configOptions>
+                            <generateApiTests>false</generateApiTests>
+                            <generateModelTests>false</generateModelTests>
+                            <generateSupportingFiles>true</generateSupportingFiles>
+                            <library>spring-boot</library>
+                            <modelNameSuffix>DTO</modelNameSuffix>
+                            <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
+                        </configuration>
+                    </execution>
+<!--                    <execution>-->
+<!--                        <id>generate-javascript-api</id>-->
+<!--                        <goals>-->
+<!--                            <goal>generate</goal>-->
+<!--                        </goals>-->
+<!--                        <phase>generate-sources</phase>-->
+<!--                        <configuration>-->
+<!--                            <inputSpec>openapi/pia-openapi.yaml</inputSpec>-->
+<!--                            <generatorName>javascript</generatorName>-->
+<!--                            <configOptions>-->
+<!--                                <hideGenerationTimestamp>true</hideGenerationTimestamp>-->
+<!--                                <sourceFolder>/js/</sourceFolder>-->
+<!--                                <useTags>true</useTags>-->
+<!--                                <validateSpec>true</validateSpec>-->
+<!--                                <strictSpec>true</strictSpec>-->
+<!--                            </configOptions>-->
+<!--                            <generateApiTests>false</generateApiTests>-->
+<!--                            <generateModelTests>false</generateModelTests>-->
+<!--                            <generateSupportingFiles>true</generateSupportingFiles>-->
+<!--                            <skipIfSpecIsUnchanged>false</skipIfSpecIsUnchanged>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+                </executions>
             </plugin>
         </plugins>
     </build>

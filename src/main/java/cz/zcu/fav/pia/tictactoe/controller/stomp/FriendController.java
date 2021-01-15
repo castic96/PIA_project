@@ -1,4 +1,4 @@
-package cz.zcu.fav.pia.tictactoe.controller;
+package cz.zcu.fav.pia.tictactoe.controller.stomp;
 
 import cz.zcu.fav.pia.tictactoe.domain.UserDomain;
 import cz.zcu.fav.pia.tictactoe.dto.AcceptationDTO;

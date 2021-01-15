@@ -2,7 +2,7 @@ package cz.zcu.fav.pia.tictactoe.service.impl;
 
 import cz.zcu.fav.pia.tictactoe.domain.RoleEnum;
 import cz.zcu.fav.pia.tictactoe.domain.UserDomain;
-import cz.zcu.fav.pia.tictactoe.dto.UserInfoDTO;
+import cz.zcu.fav.pia.tictactoe.domain.UserInfoDomain;
 import cz.zcu.fav.pia.tictactoe.entity.RoleEntity;
 import cz.zcu.fav.pia.tictactoe.entity.UserEntity;
 import cz.zcu.fav.pia.tictactoe.repository.RoleEntityRepository;
@@ -121,17 +121,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public UserInfoDTO updateUser(String username, UserInfoDTO userInfoDTO) {
+    public UserInfoDomain updateUser(String username, UserInfoDomain userInfoDomain) {
         UserEntity userEntity = userEntityRepository.findUserEntityByUsername(username);
 
-        userEntity.setFirstName(userInfoDTO.getFirstName());
-        userEntity.setLastName(userInfoDTO.getLastName());
+        userEntity.setFirstName(userInfoDomain.getFirstName());
+        userEntity.setLastName(userInfoDomain.getLastName());
 
         userEntityRepository.save(userEntity);
 
         userEntity = userEntityRepository.findUserEntityByUsername(username);
 
-        return new UserInfoDTO(userEntity.getFirstName(), userEntity.getLastName());
+        return new UserInfoDomain(userEntity.getFirstName(), userEntity.getLastName());
     }
 
 }
