@@ -8,8 +8,8 @@ import cz.zcu.fav.pia.tictactoe.domain.RoleEnum;
 public final class Constants {
 
     public static final String INIT_ADMIN_USERNAME = "admin@example.com";
-    public static final String INIT_USER1_USERNAME = "user1@admin.com";
-    public static final String INIT_USER2_USERNAME = "user2@admin.com";
+    public static final String INIT_USER1_USERNAME = "user1@example.com";
+    public static final String INIT_USER2_USERNAME = "user2@example.com";
 
     public static final String INIT_ADMIN_PASSWORD = "admin";
     public static final String INIT_USER1_PASSWORD = "user1";
