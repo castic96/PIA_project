@@ -22,9 +22,6 @@ function connect(csrf) {
         alertify.success('Successfully connected.', 2);
         $("#gameLabel").html("Challenge some opponent...");
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/client/greetings', function (greeting) {
-            showGreeting(JSON.parse(greeting.body).content);
-        });
         stompClient.subscribe('/user/client/online-players', function (players) {
             showOnlinePlayers(JSON.parse(players.body));
         });
@@ -72,6 +69,9 @@ function connect(csrf) {
         });
         stompClient.subscribe('/user/friend/removed', function (message) {
             friendRemoved(JSON.parse(message.body));
+        });
+        stompClient.subscribe('/user/client/chat', function (message) {
+            getChatMessage(JSON.parse(message.body));
         });
     });
 
@@ -156,6 +156,9 @@ function gameEnd(message) {
 
     $("#opponent-label").removeClass("enabled");
     $("#opponent-label").addClass("disabled");
+
+    $("#chat-window").attr('hidden', true);
+    $("#chat").html("");
 
     gameState(message);
 }
@@ -247,6 +250,7 @@ function gameAccepted(message) {
 
     $("#gameBoard").attr('hidden', false);
     $("#give-up-btn").attr('disabled', false);
+    $("#chat-window").attr('hidden', false);
 
     opponentLabel.removeClass("disabled");
     opponentLabel.addClass("enabled");
@@ -260,7 +264,6 @@ function gameAccepted(message) {
 function gameDeclined(message) {
     $("#btn-play-hide").attr('disabled', false);
     alertify.warning('User ' + message.username + ' declined game invitation.', 3);
-    //TODO: nejaky dalsi veci
 }
 
 function gameAcceptation(username, accepted) {
@@ -280,6 +283,7 @@ function confirmInvitation(message) {
             let opponentLabel = $("#opponent-label");
             $("#gameBoard").attr('hidden', false);
             $("#btn-play-hide").attr('disabled', true);
+            $("#chat-window").attr('hidden', false);
             gameAcceptation(username,true);
             createGame(username);
             $("#give-up-btn").attr('disabled', false);
@@ -333,6 +337,8 @@ function disconnect() {
 
     $("#btn-play-hide").attr('disabled', false);
     $("#give-up-btn").attr('disabled', true);
+    $("#chat-window").attr('hidden', true);
+    $("#chat").html("");
 
     $("#opponent-label").removeClass("enabled");
     $("#opponent-label").addClass("disabled");
@@ -349,12 +355,34 @@ function disconnect() {
     $("#friendsTable").html("");
 }
 
-function sendName() {
-    stompClient.send("/app/hello", {}, JSON.stringify({'name': $("#name").val()}));
+function sendMessage() {
+    let message = $("#message");
+
+    if (message.val() === "") {
+        return;
+    }
+
+    let value = {
+        'message': message.val(),
+        'user' : null
+    };
+
+    stompClient.send("/app/client/chat", {}, JSON.stringify(value));
+
+    getChatMessage({'message' : message.val(), 'user' : 'You'});
+
+    message.val("");
 }
 
-function showGreeting(message) {
-    $("#greetings").append("<tr><td>" + message + "</td></tr>");
+function getChatMessage(message) {
+    let chatSelector = $("#chat");
+    let chat = chatSelector.html();
+
+    chatSelector.html("<tr>" +
+        "<td>" + message.user + ": " + message.message + "</td>" +
+        "</tr>");
+
+    chatSelector.append(chat);
 }
 
 function inviteToGame(username) {
@@ -444,5 +472,5 @@ $(function () {
         connect($(this).attr("data-csrf"));
     });
     $( "#disconnect" ).click(function() { disconnectVerify(); });
-    $( "#send" ).click(function() { sendName(); });
 });
+
