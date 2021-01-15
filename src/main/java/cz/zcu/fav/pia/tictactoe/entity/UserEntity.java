@@ -12,9 +12,6 @@ import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Create table user_tab.
- */
 @Entity
 @Table(name = "user_tab")
 @Data

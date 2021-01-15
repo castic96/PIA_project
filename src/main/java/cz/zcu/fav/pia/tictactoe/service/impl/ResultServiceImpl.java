@@ -17,6 +17,7 @@ public class ResultServiceImpl implements ResultService {
     private final UserEntityRepository userEntityRepository;
     private final ResultEntityRepository resultEntityRepository;
 
+    @Override
     public void addResult(String username1, String username2, String winner) {
         UserEntity user1 = userEntityRepository.findUserEntityByUsername(username1);
         UserEntity user2 = userEntityRepository.findUserEntityByUsername(username2);

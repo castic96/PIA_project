@@ -2,9 +2,6 @@ package cz.zcu.fav.pia.tictactoe.configuration;
 
 import cz.zcu.fav.pia.tictactoe.domain.RoleEnum;
 
-/**
- * Application constants.
- */
 public final class Constants {
 
     public static final String INIT_ADMIN_USERNAME = "admin@example.com";

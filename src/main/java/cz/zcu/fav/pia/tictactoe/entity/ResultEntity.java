@@ -8,9 +8,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-/**
- * Create table result_tab.
- */
 @Entity
 @Table(name = "result_tab")
 @Data
