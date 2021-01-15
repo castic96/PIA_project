@@ -87,6 +87,7 @@ public class GameServiceImpl implements GameService {
         return playersInGame;
     }
 
+    @Override
     public GameDomain giveUp(String username) {
         GameDomain game = gameDomainRepository.loadGameByUser(username);
 
@@ -104,6 +105,7 @@ public class GameServiceImpl implements GameService {
         return game;
     }
 
+    @Override
     public GameDomain move(String username, String positionStr) {
         GameDomain game = gameDomainRepository.loadGameByUser(username);
         List<String> positionsList = Arrays.asList(positionStr.split("-"));
