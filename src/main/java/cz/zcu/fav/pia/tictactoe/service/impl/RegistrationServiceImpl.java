@@ -50,7 +50,10 @@ public class RegistrationServiceImpl implements RegistrationService {
             return;
         }
 
-        userService.addUser(email, encoder.encode(newPassword1), firstName, lastName, RoleEnum.USER.getCode());
+        if (userService.addUser(email, encoder.encode(newPassword1), firstName, lastName, RoleEnum.USER.getCode())) {
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Successfully signed up.", null));
+        }
     }
 
     public void registerUser() {

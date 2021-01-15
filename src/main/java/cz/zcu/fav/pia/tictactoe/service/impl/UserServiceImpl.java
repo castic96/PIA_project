@@ -1,5 +1,6 @@
 package cz.zcu.fav.pia.tictactoe.service.impl;
 
+import cz.zcu.fav.pia.tictactoe.configuration.Constants;
 import cz.zcu.fav.pia.tictactoe.domain.RoleEnum;
 import cz.zcu.fav.pia.tictactoe.domain.UserDomain;
 import cz.zcu.fav.pia.tictactoe.domain.UserInfoDomain;
@@ -34,11 +35,6 @@ import java.util.Set;
 @DependsOn("roleService")
 public class UserServiceImpl implements UserService, UserDetailsService {
 
-    private static final String INIT_USERNAME = "admin@admin.com";
-    private static final String INIT_PASSWORD = "admin";
-    private static final RoleEnum INIT_ROLE_ADMIN = RoleEnum.ADMIN;
-    private static final RoleEnum INIT_ROLE_USER = RoleEnum.USER;
-
     private final UserEntityRepository userEntityRepository;
     private final RoleEntityRepository roleEntityRepository;
 
@@ -46,9 +42,34 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @PostConstruct
     private void setup() {
-        if (!userEntityRepository.existsUserEntitiesByRolesEquals(roleEntityRepository.findRoleEntityByCode(INIT_ROLE_ADMIN.getCode()))) {
-            log.info("No admin present, creating admin...");
-            addUser(INIT_USERNAME, encoder.encode(INIT_PASSWORD), "Super", "User", INIT_ROLE_ADMIN.getCode(), INIT_ROLE_USER.getCode());
+        if (!userEntityRepository.existsUserEntitiesByRolesEquals(roleEntityRepository.findRoleEntityByCode(RoleEnum.ADMIN.getCode()))) {
+            log.info("No admin present, creating init users...");
+
+            addUser(
+                    Constants.INIT_ADMIN_USERNAME,
+                    encoder.encode(Constants.INIT_ADMIN_PASSWORD),
+                    "AdminFirstName",
+                    "AdminLastName",
+                    Constants.INIT_ROLE_ADMIN.getCode(),
+                    Constants.INIT_ROLE_USER.getCode()
+            );
+
+            addUser(
+                    Constants.INIT_USER1_USERNAME,
+                    encoder.encode(Constants.INIT_USER1_PASSWORD),
+                    "User1FirstName",
+                    "User1LastName",
+                    Constants.INIT_ROLE_USER.getCode()
+            );
+
+            addUser(
+                    Constants.INIT_USER2_USERNAME,
+                    encoder.encode(Constants.INIT_USER2_PASSWORD),
+                    "User2FirstName",
+                    "User2LastName",
+                    Constants.INIT_ROLE_USER.getCode()
+            );
+
         }
     }
 
@@ -58,6 +79,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         if (userEntityRepository.findUserEntityByUsername(username) != null) {
             log.error("User already exists!");
+
+            FacesContext.getCurrentInstance().addMessage(null,
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "User already exists!", null));
+
             return false;
         }
 
